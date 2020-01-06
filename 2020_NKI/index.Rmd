@@ -1,7 +1,7 @@
 ---
 title: "Personalized Schedules for Prostate Cancer"
 author: "Dimitris Rizopoulos"
-date: "January 23, 2020"
+date: "Netherlands Cancer Institute<br/> January 23, 2020"
 output:
   ioslides_presentation:
     css: pres.css
@@ -17,35 +17,43 @@ runtime: shiny
 </script>
 
 ```{r setup, echo = FALSE, message = FALSE, warning = FALSE}
-library("cvGEE")
-library("geepack")
-library("splines")
-library("lattice")
-library("MESS")
-data("toenail", package = "HSAUR2")
+library("ggplot2")
 ```
 
-# Motivation
+# Background & Motivation
 
-## Grouped Categorical Data
+## Prostate Cancer (PC)
+
+- PC is the 2nd most frequently diagnosed cancer in males worldwide
+    + the most frequent in economically developed countries
+    
+<br/>
+
+- Many countries run population screening programs using PSA blood tests
+    + to identify men who have developed the disease
+    + or men who have high risk of developing it
+    
+<br/>
+
+- <font color = "red">However, these programs have resulted to high rates of 
+over-diagnosis and overtreatment</font>
+    + standard treatments have serious side-effects
+
+## Prostate Cancer Active Surveillance
+- To avoid over-treatment, men with low grade prostate cancer are advised active surveillance
 
 <br/>
 
-- Often interest in cluster non-Gaussian data
-    + dichotomous/binomial
-    + counts
-    + ordinal
-    + ...
-
-## Challenges
+- <span style="color:red">Cancer progression</span> is tracked via:
+    - Prostate-specific antigen measurements
+    - Digital rectal examination
+    - <span style="color:red">Biopsies</span>
 
 <br/>
 
-- For normal data we have the multivariate version of the normal distribution
-  + marginal models
-  + mixed effects models
+- Treatment is advised when cancer progression is observed
+    - typically via biopsies
 
-## Example AIDS
 
 
 ***
