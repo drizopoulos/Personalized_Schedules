@@ -1,0 +1,75 @@
+---
+title: "Personalized Schedules for Prostate Cancer"
+author: "Dimitris Rizopoulos"
+date: "January 23, 2020"
+output:
+  ioslides_presentation:
+    css: pres.css
+    widescreen: yes
+    mathjax: default
+    logo: emc.png
+transition: none
+runtime: shiny
+---
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ TeX: { extensions: ["color.js"] }});
+</script>
+
+```{r setup, echo = FALSE, message = FALSE, warning = FALSE}
+library("cvGEE")
+library("geepack")
+library("splines")
+library("lattice")
+library("MESS")
+data("toenail", package = "HSAUR2")
+```
+
+# Motivation
+
+## Grouped Categorical Data
+
+<br/>
+
+- Often interest in cluster non-Gaussian data
+    + dichotomous/binomial
+    + counts
+    + ordinal
+    + ...
+
+## Challenges
+
+<br/>
+
+- For normal data we have the multivariate version of the normal distribution
+  + marginal models
+  + mixed effects models
+
+## Example AIDS
+
+
+***
+
+<br/> 
+<br/> 
+
+<div align = "center">
+<font color = "black" size = "6">**Thank you for your attention!**</font>
+</div>
+<br/>
+<div align = "center">
+[http://www.drizopoulos.com/](http://www.drizopoulos.com/)
+</div>
+
+<br/> 
+<br/>
+<br/>
+
+<div align = "center">
+<font color = "black" size = "5">**These slides are available at:**</font>
+</div>
+<div align = "center">
+<div align = "center">
+[https://drizopoulos.github.io/cvGEE_presentations/](https://drizopoulos.github.io/cvGEE_presentations/)
+</div>
+
