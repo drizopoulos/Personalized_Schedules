@@ -217,7 +217,7 @@ saveGIF({
 }, movie.name = "./JM.gif")
 ```
 
-<img src="JM.gif" alt="Smiley face" width="630" height="520"> 
+<img src="JM.gif" alt="Smiley face" width="55%"> 
 
 ## The Basic Joint Model (cont'd)
 
@@ -302,6 +302,6 @@ p(y_{i1}, y_{i2}, T_i^L, T_i^R) & = & \int p(y_{i1} \mid {\color{red} b_{i1}}) \
 </div>
 <div align = "center">
 <div align = "center">
-[https://drizopoulos.github.io/cvGEE_presentations/](https://drizopoulos.github.io/cvGEE_presentations/)
+[https://drizopoulos.github.io/Personalized_Schedules/](https://drizopoulos.github.io/Personalized_Schedules/)
 </div>
 
