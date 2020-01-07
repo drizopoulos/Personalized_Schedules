@@ -18,6 +18,8 @@ runtime: shiny
 
 ```{r setup, echo = FALSE, message = FALSE, warning = FALSE}
 library("ggplot2")
+library("JM")
+load("./plotJM_data.RData")
 ```
 
 # Background & Motivation
@@ -47,13 +49,54 @@ over-diagnosis and overtreatment</font>
 - <span style="color:red">Cancer progression</span> is tracked via:
     - Prostate-specific antigen measurements
     - Digital rectal examination
+    - MRI
     - <span style="color:red">Biopsies</span>
+
+## Prostate Cancer Active Surveillance (cont'd)
+
+- Treatment is advised when cancer progression is observed
+    - typically via biopsies when Gleason Score $\geq 7$
 
 <br/>
 
-- Treatment is advised when cancer progression is observed
-    - typically via biopsies
+<div style="float:center;text-align:center;width:50%;border:3px solid black">
+<br/><br/>
+<strong><font size="6" color = "red">Frequency of Biopsies</font></strong>
+<br/><br/>
+</div>
 
+## Prostate Cancer Active Surveillance (cont'd)
+
+- Two dimensions
+  + <strong><font color = "red">Frequency</font></strong> of biopsies
+  + <strong><font color = "red">Delay</font></strong> in finding progression
+  
+<br/>
+
+- <strong><font color = "red">Delay</font></strong>: We want to find progression asap
+  + typically delay $\leq 12-18$ months
+  
+
+<br/>
+
+- <strong><font color = "red">Frequency</font></strong>: Biopsies have high burden
+  + painful, cause complications, expensive
+
+## Biopsies Schedules
+
+- Different AS programs
+
+<br/>
+
+- Annual Biopsies
+  + focus on minimizing delay
+  + many <span style="color:red">unnecessary</span> biopsies for patients who progress slow
+
+## Biopsies Schedules (cont'd)
+
+- Less Frequent Biopsies - PRIAS
+  + every 3 years or
+  + annually if PSA doubling time < 10 (try to find faster progressions)
 
 
 ***
