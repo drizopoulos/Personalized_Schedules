@@ -9,7 +9,6 @@ output:
     mathjax: default
     logo: emc.png
 transition: none
-runtime: shiny
 ---
 
 <script type="text/x-mathjax-config">
@@ -17,12 +16,13 @@ runtime: shiny
 </script>
 
 ```{r setup, echo = FALSE, message = FALSE, warning = FALSE}
-library("ggplot2")
+library("ggpubr")
 library("lattice")
 library("animation")
-library("JM")
-load("./plotJM_data.RData")
-load("./data_example.RData")
+library("JMbayes")
+library("splines")
+load("./workspaces/plotJM_data.RData")
+load("./workspaces/data_example.RData")
 ```
 
 # Background & Motivation
@@ -217,7 +217,7 @@ saveGIF({
 }, movie.name = "./JM.gif")
 ```
 
-<img src="JM.gif" alt="Smiley face" width="55%"> 
+<img src="JM.gif" alt="DynPreds" style="margin:0px 0px 0px 0px; width:500px;"> 
 
 ## The Basic Joint Model (cont'd)
 
@@ -234,8 +234,6 @@ saveGIF({
 
 ## The Basic Joint Model (cont'd)
 
-- Formally, we have
-<br/><br/>
 $$\left \{
 \begin{array}{ccl}
 h_i(t) & = & h_0(t) \exp \{\mathbf \gamma^\top \mathbf w_i + 
@@ -246,7 +244,7 @@ y_{i1}(t) & = & {\color{red} \eta_{i1}(t)} + \varepsilon_i(t)\\
 \log\frac{\Pr\{y_{i2}(t) = 1\}}{1 - \Pr\{y_{i2}(t) = 1\}} & = & {\color{blue} \eta_{i2}(t)}\\
 & = & \mathbf x_{i2}^\top(t) \mathbf \beta_2 + 
 \mathbf z_{i2}^\top(t) \mathbf b_{i2}\\&&\\
-& & \mathbf \{b_{i1}, b_{i2}\} \sim \mathcal N(\mathbf 0, \mathbf D), \quad
+\mathbf \{b_{i1}, b_{i2}\} \sim \mathcal N(\mathbf 0, \mathbf D), & &
 \varepsilon_i(t) \sim \mathcal N(0, \sigma^2)
 \end{array}
 \right.$$
@@ -279,7 +277,640 @@ p(y_{i1}, y_{i2}, T_i^L, T_i^R) & = & \int p(y_{i1} \mid {\color{red} b_{i1}}) \
     <br/>
     where ${\color{blue} \eta_{i1}'(t)} = \frac{d}{dt} \eta_{i1}(t)$
     
+## Functional Form (cont'd)
+
+```{r, echo = FALSE, results = 'hide', message=FALSE}
+saveGIF({
+  for (i in 1:20) {
+  set.seed(1234)
+times <- seq(0.01, 10, len = 15)
+m <- rnorm(length(times), 1 + cos(0.5 * times), 0.5)
+h <-  0.5 * 0.8 * times^(0.8-1) * exp(-1.2 * m)
+DD <- data.frame(
+    val = c(h, m),
+    times = times,
+    what = gl(2, length(times), labels = c("hazard function", "longitudinal outcome")))
+tts <- seq(0, 10, length = 20)
+print(xyplot(val ~ times | what, data = DD,
+             scales = list(y = list(relation = "free")), layout = c(1, 2), as.table = TRUE,
+             ylab = "", xlab = "Time", panel = function (x, y) {
+                 if (panel.number() == 1) {
+                     panel.xyplot(x, y, type = "smooth", lwd = 3, col = 2)
+                     panel.abline(v = tts[i], lwd = 2, lty = 2,
+                                  col = 1)
+                 } else {
+                     ind <- c(1, 3, 4, 5, 9, 11, 14, 15)
+                     panel.xyplot(x[ind], y[ind], type = "p", col = 1, pch = 8,
+                                  lwd = 3)
+                     panel.abline(v = tts[i], lwd = 2, lty = 2,
+                                  col = 1)
+                     yy <- 1 + cos(0.5 * x)
+                     panel.xyplot(x, yy, type = "l", lwd = 3,
+                                  col = 3)
+                     #
+                     a1 <- tts[i]
+                     y1 <- 1 + cos(0.5 * a1)
+                     y1d <- - 0.5 * sin(0.5 * a1)
+                     xx <- seq(a1 - 0.75, a1 + 0.75, len = 3)
+                     extra <- if (a1 < 3) 0.06 else -0.07
+                     yy <- y1 + y1d * (xx - a1) + extra
+                     panel.xyplot(xx, yy, type = "l", lwd = 3, col = "magenta")
+                 }
+             }))
+  }
+}, movie.name = "./tdSlope.gif")
+```
+
+<img src="tdSlope.gif" alt="TD_slopes" style="margin:0px 0px 0px 0px; width:500px;"> 
+
+# Personalizing the Biopsy Schedules
+
+## Risk of Progression
+
+- Using the fitted joint model we can calculate the cumulative risk of progression
+$$\pi_j(u \mid t, v) = \Pr \bigl \{ T_j^* \leq u \mid T_j^* \geq t, \mathcal Y_{j1}(v), \mathcal Y_{j2}(v) \bigr \}$$
+
+<br/>
+
+  + $t$ time of last biopsy
+  + $v$ time of current visit
+  + $u$ future time
+  + $\mathcal Y_{j1}(v)$ & $\mathcal Y_{j2}(v)$ available PSA & DRE measurements up to 
+  current visit
+
+## Personalized Schedule
+
+- Patients come back every 6 months for PSA & DRE measurements
+  + at these occasions we want to decide for a biopsy
   
+<br/>
+
+- In general, we consider decisions at fixed schedule
+$$\begin{array}{l}
+s_1, \ldots, s_N\\
+s_1 = u\\
+s_N = h
+\end{array}$$
+
+## Personalized Schedule (cont'd)
+
+- <font color = "red">Simple decision rule:</font> We do a biopsy at $s_n$ if
+<br/><br/>
+$$\pi(s_n \mid t_n, v) \geq \kappa_n$$
+- where
+    + $\kappa_n$ a threshold at $s_n$
+    + $t_n$ time of last biopsy before $s_n$
+
+## Personalized Schedule (cont'd)
+
+- The key question is 
+
+<br/>
+
+<div style="text-align:center;width:600px;border:3px solid black">
+<br/>
+<strong><font size="6" color = "red">How to we select ${\color{red} \kappa_n}$?</font></strong>
+<br/>
+</div>
+
+## Personalized Schedule (cont'd)
+
+- We consider two relevant quantities
+  + the number of biopsies
+  + the delay in finding progression
+
+<br/>
+
+<div style="text-align:center;width:700px;border:3px solid black">
+<br/>
+<strong><font size="5" color = "red">Ideally, we would like to just do one biopsy at exactly the 
+time point of progression</font></strong>
+<br/>
+</div>
+
+## Personalized Schedule (cont'd)
+
+- For different thresholds $\kappa_n$ we would obtain different number of biopsies and different delays...
+
+<br/>
+
+- For a specific threshold $\kappa^*$ we can calculate
+  + how many times a biopsy will be performed in the future
+
+## Personalized Schedule (cont'd)
+
+```{r, echo = FALSE, warning = FALSE, results = 'hide'}
+load("./workspaces/Figure3.RData")
+SUCCESS_COLOR = 'forestgreen'
+DANGER_COLOR = 'red'
+WARNING_COLOR = 'darkorange'
+THEME_COLOR = 'dodgerblue4'
+MAX_FOLLOW_UP = 10
+POINT_SIZE = 2
+FONT_SIZE = 12
+LABEL_SIZE = 2.5
+
+conditionalDynamicRiskPlot = function(object, pat_df, latest_survival_time=NA, 
+                                      threshold = 0.1, xbreaks, xlabs, psa_breaks = NULL,
+                                      max_follow_up, test_decision_times){
+  set.seed(2019)
+  
+  if(is.na(latest_survival_time)){
+    latest_survival_time = max(pat_df$year_visit[!is.na(pat_df$gleason_sum)])
+  }
+  
+  max_psa_time = max(pat_df$year_visit)
+  
+  accuracy = 50
+  psa_predict_times = seq(0, max_psa_time, length.out = accuracy)
+  exp_fut = getExpectedFutureOutcomes(object, pat_df, latest_survival_time, Inf,
+                                      psa_predict_times = psa_predict_times, 
+                                      psaDist = "Tdist", addRandomError = F)
+  mean_psa = rowMeans(exp_fut$predicted_psa)
+  
+  if(is.null(psa_breaks)){
+    psa_breaks = seq(min(pat_df$log2psaplus1, na.rm = T), 
+                     max(pat_df$log2psaplus1, na.rm = T), 
+                     length.out = 3)
+  }
+  transformRiskToPSA = function(x){
+    x*(tail(psa_breaks,1) - psa_breaks[1]) + psa_breaks[1]
+  }
+  
+  #I am not expecting to show 10 tests but ok...its a reasonable upper limit for this code to not fail
+  new_test_df = data.frame(survtime=numeric(), mean_cum_risk=numeric(),
+                           mean_cum_risk_scaled=numeric(), 
+                           lower_cum_risk_scaled=numeric(), upper_cum_risk_scaled=numeric())
+  accuracy = 100
+  latest_test_time = latest_survival_time
+  test_decisions = rep("NB", length(test_decision_times))
+  for(i in 1:length(test_decision_times)){
+    test_decision_time = test_decision_times[i]
+    
+    exp_fut = getExpectedFutureOutcomes(object, pat_df, 
+                                        latest_survival_time = latest_test_time, Inf,
+                                        survival_predict_times = test_decision_time, 
+                                        psaDist = "Tdist", addRandomError = F)
+    
+    mean_cum_risk = 1-mean(exp_fut$predicted_surv_prob)
+    
+    if(mean_cum_risk >= threshold){
+      test_decisions[i] = "B"
+      
+      #this bit of extra work to make the ribbon and line for survival curve
+      surv_ribbon_predict_times = seq(from = latest_test_time, to = test_decision_time, length.out = accuracy)
+      exp_fut = getExpectedFutureOutcomes(object, pat_df, 
+                                          latest_survival_time = latest_test_time, Inf,
+                                          survival_predict_times = surv_ribbon_predict_times, 
+                                          psaDist = "Tdist", addRandomError = F)
+      
+      mean_cum_risk = 1-c(1, rowMeans(exp_fut$predicted_surv_prob))
+      lower_cum_risk = 1-c(1, apply(exp_fut$predicted_surv_prob, 1, quantile, probs=0.025))
+      upper_cum_risk = 1-c(1, apply(exp_fut$predicted_surv_prob, 1, quantile, probs=0.975))
+      
+      new_test_df = rbind(new_test_df, data.frame(survtime=surv_ribbon_predict_times,
+                                                  mean_cum_risk = mean_cum_risk,
+                                                  mean_cum_risk_scaled = transformRiskToPSA(mean_cum_risk),
+                                                  lower_cum_risk_scaled = transformRiskToPSA(lower_cum_risk),
+                                                  upper_cum_risk_scaled = transformRiskToPSA(upper_cum_risk)))
+      
+      
+      latest_test_time = test_decision_time
+    }
+    
+    print(latest_test_time)
+  }
+  
+  if(latest_test_time < max_follow_up){
+    #this bit of extra work to make the ribbon and line for survival curve
+    surv_ribbon_predict_times = seq(from = latest_test_time, to = max_follow_up, length.out = accuracy)
+    exp_fut = getExpectedFutureOutcomes(object, pat_df, 
+                                        latest_survival_time = latest_test_time, Inf,
+                                        survival_predict_times = surv_ribbon_predict_times, 
+                                        psaDist = "Tdist", addRandomError = F)
+    
+    mean_cum_risk = 1-c(1, rowMeans(exp_fut$predicted_surv_prob))
+    lower_cum_risk = 1-c(1, apply(exp_fut$predicted_surv_prob, 1, quantile, probs=0.025))
+    upper_cum_risk = 1-c(1, apply(exp_fut$predicted_surv_prob, 1, quantile, probs=0.975))
+    
+    new_test_df = rbind(new_test_df, data.frame(survtime=surv_ribbon_predict_times,
+                                                mean_cum_risk = mean_cum_risk,
+                                                mean_cum_risk_scaled = transformRiskToPSA(mean_cum_risk),
+                                                lower_cum_risk_scaled = transformRiskToPSA(lower_cum_risk),
+                                                upper_cum_risk_scaled = transformRiskToPSA(upper_cum_risk)))
+    
+  }
+  
+  riskBreaksOriginal = c(0, threshold, 0.5,1)
+  riskAxisBreaks = transformRiskToPSA(riskBreaksOriginal)
+  riskAxisLabels = paste0(riskBreaksOriginal*100, "%")
+  riskAxisLabels[2] = paste0("Threshold\nk = ",riskAxisLabels[2])
+  
+  p = ggplot() +  
+    geom_vline(xintercept = latest_survival_time, color=SUCCESS_COLOR)+
+    geom_vline(xintercept = max_psa_time, linetype='dashed')+
+    geom_segment(aes(x = latest_survival_time, xend=max_follow_up,
+                     y=transformRiskToPSA(threshold), yend=transformRiskToPSA(threshold)),
+                 linetype="dashed", color=DANGER_COLOR)+
+    geom_line(aes(x=psa_predict_times, y=mean_psa), color=THEME_COLOR) + 
+    geom_line(data=new_test_df, 
+              aes(x=survtime, y=mean_cum_risk_scaled), color=DANGER_COLOR) +
+    geom_ribbon(data=new_test_df, 
+                aes(x=survtime, ymin=lower_cum_risk_scaled,
+                    ymax=upper_cum_risk_scaled), alpha=0.15, fill=DANGER_COLOR) + 
+    geom_vline(xintercept = test_decision_times[test_decisions=="B"],
+               color=SUCCESS_COLOR) +
+    geom_point(aes(x=pat_df$year_visit,y=pat_df$log2psaplus1),
+               size=POINT_SIZE, color=THEME_COLOR) +
+    theme_bw() + theme(text = element_text(size = FONT_SIZE), 
+                       legend.title = element_blank(),
+                       legend.position = "bottom",
+                       axis.title.y = element_text(size=FONT_SIZE, color=THEME_COLOR),
+                       axis.text.y = element_text(size=FONT_SIZE, color=THEME_COLOR),
+                       axis.title.y.right  = element_text(size=FONT_SIZE, color=DANGER_COLOR),
+                       axis.text.y.right = element_text(size=FONT_SIZE, color=DANGER_COLOR)) +
+    scale_x_continuous(breaks = xbreaks, labels=xlabs,
+                       limits = c(-0.35, max_follow_up), 
+                       minor_breaks = seq(0, max_follow_up, 1)) +
+    xlab("Follow-up time (years)")+
+    scale_y_continuous(breaks = psa_breaks, 
+                       labels = round(psa_breaks,1), 
+                       limits = range(psa_breaks),
+                       sec.axis = sec_axis(trans=~., 
+                                           breaks= riskAxisBreaks,
+                                           labels = riskAxisLabels,
+                                           name = "Cumulative-risk of progression")) +
+    ylab("Biomarker") +
+    geom_point(aes(x=-5,y=-5, color="Observed PSA"), size=POINT_SIZE) +
+    scale_color_manual(values = c(THEME_COLOR), labels="Observed longitudinal biomarker")
+  
+  
+  return(list(plot=p, test_decision_times=test_decision_times, 
+              test_decisions=test_decisions))
+}
+
+test_decision_times = seq(2.5,6.5, 1)
+cond_risk_plot_data = conditionalDynamicRiskPlot(mvJoint_psa_time_scaled,
+                                                 pat_data,
+                                                 latest_survival_time = 1.5,
+                                                 threshold = 0.12,
+                                                 xbreaks = c(0,1.5,2.5,3.5,4.5,5.5,6.5),
+                                                 xlabs = c(0,1.5,2.5,3.5,4.5,5.5,6.5),
+                                                 psa_breaks = psa_breaks,
+                                                 max_follow_up = 6.5, 
+                                                 test_decision_times = test_decision_times)
+
+cond_risk_plot = cond_risk_plot_data$plot + theme(axis.title.x = element_blank(),
+                                                  plot.margin = margin(0,0,0,0, unit = "pt"))
+test_decisions = cond_risk_plot_data$test_decisions
+
+print(test_decision_times[test_decisions=="B"])
+
+label_plot = ggplot() + 
+  geom_vline(xintercept = c(0,1.5,2.5, 3.5, 5.5),
+             color=c(WARNING_COLOR, SUCCESS_COLOR, "black",
+                     SUCCESS_COLOR, SUCCESS_COLOR),
+             linetype=c("solid", "solid", "dashed", "solid", "solid")) +
+  geom_vline(xintercept = c(4.5, 6.5), 
+             linetype=c("dashed", "dashed")) +
+  geom_label(aes(x=c(0,1.5,2.5), y=c(0,0,0.03), 
+                 label = c("Start\nsurveillance", 
+                           "Last\ntest",
+                           "Current\nvisit")), color='white',
+             size= LABEL_SIZE,
+             fill=c(WARNING_COLOR, SUCCESS_COLOR, 'black')) +
+  geom_label(aes(x=c(2.5, 4.5,6.5), y=c(-0.07,0,0), 
+                 label = c("No test","No test", "No test")),
+             size= LABEL_SIZE) +
+  geom_label(aes(x=c(3.5, 5.5), y=c(0,0), 
+                 label = c("Test\nscheduled", 
+                           "Test\nscheduled")), 
+             color=SUCCESS_COLOR, size= LABEL_SIZE, fill='white') +
+  theme_bw() +
+  theme(text = element_text(size = FONT_SIZE),
+        panel.background = element_blank(),
+        axis.text = element_blank(),
+        axis.title.y = element_blank(),
+        axis.ticks = element_blank(),
+        panel.border = element_blank(),
+        panel.grid = element_blank(),
+        plot.margin = margin(0,0,0,0, unit = "pt")) + 
+  xlab("Follow-up time (years)") + ylim(-0.1,0.1) + 
+  xlim(-0.35,6.5)
+
+schedule_plot = ggpubr::ggarrange(cond_risk_plot, label_plot,
+                                  nrow=2, ncol=1, align="v",
+                                  heights = c(4,1.2),
+                                  common.legend = T, legend = "bottom")
+
+print(schedule_plot)
+```
+
+## Personalized Schedule (cont'd)
+
+- The expected number of biopsies will be
+$$\mathcal N_j(\kappa^*) = \sum_{n = 1}^N \mbox{I}\{\pi_j(s_n \mid t_n, v) \geq \kappa\} \times \{1 - \pi_j(s_n \mid t_n, v)\}$$
+
+## Personalized Schedule (cont'd)
+
+- For a specific threshold $\kappa^*$ we can calculate
+  + the expected delay
+  
+$$\mathcal D_j(\kappa^*) = \sum_{n = 1}^N \bigl \{ s_n - E(T_j^* \mid s_{n-1} \leq T_j^* \leq s_n) \bigr \} \times \Pr(s_{n-1} \leq T_j^* \leq s_n)$$
+
+
+## Personalized Schedule (cont'd)
+
+<br>
+
+- For different $\kappa$'s we can calculate the two-dimensional space
+
+## Personalized Schedule (cont'd)
+
+```{r, echo = FALSE, warning = FALSE}
+load("./workspaces/Figure4.RData")
+SUCCESS_COLOR = 'forestgreen'
+DANGER_COLOR = 'red'
+WARNING_COLOR = 'darkorange'
+THEME_COLOR = 'dodgerblue4'
+MAX_FOLLOW_UP = 10
+POINT_SIZE = 2
+FONT_SIZE = 12
+LABEL_SIZE = 2.5
+
+total_schedules = length(schedules$all_schedules)
+risk_thresholds = sapply(schedules$all_schedules, "[[", "threshold")
+expected_delays = sapply(schedules$all_schedules, "[[", "expected_delay")
+total_tests = sapply(lapply(schedules$all_schedules, "[[", "practical_test_times"), length)
+euclidean_distance = sapply(schedules$all_schedules, "[[", "euclidean_distance")
+
+min_dist_schedule_index = which.min(euclidean_distance)[1]
+
+kappa_choice = ggplot() + 
+  geom_hline(yintercept = 1.5, linetype='dashed', color=WARNING_COLOR) +
+  geom_label(aes(x=6, y=1.5, label="Clinically acceptable limit for maximum time delay"), color=WARNING_COLOR, size=LABEL_SIZE) +
+  geom_segment(aes(x=1,xend=total_tests[-min_dist_schedule_index], 
+                   y=0,yend=expected_delays[-min_dist_schedule_index]), 
+               alpha=0.125, color='gray') +
+  geom_segment(aes(x=1,xend=total_tests[min_dist_schedule_index], 
+                   y=0,yend=expected_delays[min_dist_schedule_index]),
+               color=SUCCESS_COLOR) +
+  geom_point(aes(x=total_tests[-min_dist_schedule_index], 
+                 y=expected_delays[-min_dist_schedule_index]), 
+             size=POINT_SIZE) +
+  geom_point(aes(x=total_tests[min_dist_schedule_index], 
+                 y=expected_delays[min_dist_schedule_index]), 
+             size=POINT_SIZE+1, color=SUCCESS_COLOR, shape=17) +
+  geom_label(aes(x=total_tests[min_dist_schedule_index], 
+                 y=expected_delays[min_dist_schedule_index], 
+                 label=paste0("Personalized\nSchedule\n(k = ", 
+                              round(risk_thresholds[min_dist_schedule_index]*100,1), "%)")), 
+             nudge_x = 1, fill=SUCCESS_COLOR, color='white', size=LABEL_SIZE)+
+  geom_label(aes(x=total_tests[c(1, total_schedules)], 
+                 y=expected_delays[c(1, total_schedules)], 
+                 label=paste0("Personalized\nSchedule\n(k = ", 
+                              round(risk_thresholds[c(1, total_schedules)]*100,1), "%)")), 
+             nudge_x = c(0, 1), nudge_y=c(0.2, 0), fill='black', color='white', size=LABEL_SIZE)+
+  geom_point(aes(x=1, y=0), shape=15, size=POINT_SIZE + 1, 
+             color=THEME_COLOR) +
+  geom_label(aes(x=1,y=0, label="Ideal Schedule"), 
+             nudge_y = -0.1,
+             fill=THEME_COLOR, color='white',
+             size=LABEL_SIZE)+
+  theme_bw() +
+  theme(text = element_text(size = FONT_SIZE)) +
+  scale_x_continuous(breaks=1:10, limits = c(0.5,9)) +
+  scale_y_continuous(breaks=seq(0, 2.5, 0.5), limits = c(-0.2,2.25)) +
+  xlab("Number of biopsies") +
+  ylab("Expected time delay in detecting progression")
+
+print(kappa_choice)
+```
+
+
+
+## Personalized Schedule (cont'd)
+
+<br/>
+
+- If we consider that the delay & the number of biopsies are equally important
+  + we can select the $\kappa_n$ that is closest to the optimal schedule
+
+$$\kappa_n^{opt} = \mbox{argmin}_{\kappa} \sqrt{ \bigl \{ \mathcal N_j(\kappa) - 1 \bigr \}^2 + \mathcal D_j(\kappa)^2}$$
+
+## Personalized Schedule (cont'd)
+
+<br/>
+
+- Othrewise, we may also select a clinically acceptable delay, and select the $\kappa$ that minimizes the number of biopsies
+
+## Personalized Schedule (cont'd)
+
+<br/><br/>
+
+- An illustration...
+
+## Personalized Schedule (cont'd)
+
+```{r, echo = FALSE, warning = FALSE}
+load("./workspaces/Figure5.RData")
+
+riskAxisBreaks = c(0, 0.25, 0.5, 0.75, 1) * (maxYleft - minYLeft) + minYLeft
+riskAxisLabels = c("0%", "25%", "50%", "75%", "100%")
+
+FONT_SIZE = 8
+
+baseggplot = ggplot() + 
+  theme_bw() + 
+  theme(plot.margin = margin(0,0,0,0, "mm"), 
+        axis.text = element_text(size=FONT_SIZE),
+        axis.title = element_text(size=FONT_SIZE),
+        plot.title = element_text(size=FONT_SIZE),
+        axis.text.y.left = element_text(size=FONT_SIZE, color=THEME_COLOR),
+        axis.title.y.left = element_text(size=FONT_SIZE, color=THEME_COLOR),
+        legend.position = "bottom",
+        legend.title = element_blank(),
+        legend.text = element_text(size=FONT_SIZE-2))
+
+baseggplot_no_xticks = baseggplot + 
+  theme(axis.ticks.x = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank())
+
+risk_plot = baseggplot_no_xticks +
+  geom_line(aes(x=surv_prob_times, y=scaled_mean_risk_probs), color=DANGER_COLOR) +
+  geom_line(aes(x=surv_prob_times, y=scaled_mean_risk_probs), color=DANGER_COLOR) +
+  geom_ribbon(aes(x=surv_prob_times, ymin=scaled_lower_risk_probs,
+                  ymax=scaled_upper_risk_probs), alpha=0.15, fill=DANGER_COLOR) + 
+  geom_segment(aes(x=-Inf, xend=current_visit_time, 
+                   y=maxYleft/2, yend=maxYleft/2), linetype="solid") +
+  geom_vline(xintercept = last_biopsy_time, color=SUCCESS_COLOR) + 
+  geom_vline(xintercept = current_visit_time, color='black', linetype='dashed') + 
+  geom_point(data = psaDs, size=POINT_SIZE, color=THEME_COLOR,
+             aes(x = year_visit, y=log2psaplus1, shape="Observed PSA")) +
+  geom_line(data = psaDs,  color=THEME_COLOR,
+            aes(x = year_visit, y=truePSA, linetype="Fitted PSA")) +
+  geom_point(data = dreDs, size=POINT_SIZE, color=THEME_COLOR,
+             aes(x = year_visit, y=palpable_dre, shape="Observed DRE")) +
+  geom_line(data = dreDs, color=THEME_COLOR,
+            aes(x = year_visit, y=trueProbPalpableDRE, linetype="Fitted DRE")) +
+  scale_shape_manual(name="",
+                     labels= c(expression(atop('Observed', 'DRE')), 
+                               expression(atop('Observed', 'log'[2]*'(PSA + 1)'))),
+                     values = c(17, 16)) +
+  scale_linetype_manual(name="",
+                        labels= c(expression(atop('Fitted', 'Pr (Palpable DRE)')), 
+                                  expression(atop('Fitted', 'log'[2]*'(PSA + 1)'))),
+                        values = c("dotted", "dashed")) +
+  ylab(expression('Pr(DRE)       log2(PSA+1)')) +
+  #ylab('DRE              PSA') +
+  xlab("Follow-up time (years)") + 
+  xlim(min_x,MAX_FOLLOW_UP) +
+  theme(axis.text.y.right = element_text(size=8, color=DANGER_COLOR),
+        axis.title.y.right = element_text(size=10, color=DANGER_COLOR)) +
+  scale_y_continuous(limits = c(minYLeft, maxYleft),
+                     breaks = c(drebreaks, psabreaks),
+                     labels = c(drelabels, psalabels),
+                     sec.axis = sec_axis(trans=~., 
+                                         breaks= riskAxisBreaks,
+                                         labels = riskAxisLabels,
+                                         name = "Cumulative-risk\nof progression")) 
+
+
+schedule_plot = baseggplot +
+  geom_vline(xintercept = last_biopsy_time, color=SUCCESS_COLOR) + 
+  geom_vline(xintercept = current_visit_time, color='black', linetype='dashed') + 
+  geom_segment(aes(x=rep(current_visit_time,4), xend=rep(MAX_FOLLOW_UP,4), y=1:4, yend=1:4), color=SUCCESS_COLOR, linetype='dotted')+
+  geom_label(data=schedule_df, label.padding = unit(0.16, "lines"),
+             aes(x=times, y=number, label="B", group=name), 
+             color=SUCCESS_COLOR, fill='white')+
+  xlab("Follow-up time (years)") + 
+  ylab('Schedule') +
+  scale_x_continuous(breaks=0:MAX_FOLLOW_UP,
+                     limits = c(min_x, MAX_FOLLOW_UP)) +
+  scale_y_continuous(limits = c(1 - 0.25, 4 + 0.25),
+                     breaks = 1:4,
+                     labels = schedule_df$name[!duplicated(schedule_df$name)],
+                     sec.axis = dup_axis()) +
+  theme(axis.title.x = element_blank(),
+        axis.ticks.y.left = element_blank(),
+        axis.title.y.left = element_blank(),
+        axis.text.y.left = element_blank(),
+        axis.text.y.right = element_text(size=FONT_SIZE),
+        axis.title.y.right = element_text(size=FONT_SIZE))
+
+label_plot = ggplot() + 
+  geom_vline(xintercept = c(0,last_biopsy_time,current_visit_time),
+             color=c(WARNING_COLOR, SUCCESS_COLOR, "black"),
+             linetype=c("solid", "solid", "dashed")) +
+  geom_label(aes(x=c(0,last_biopsy_time,current_visit_time), 
+                 y=c(0,0,0),
+                 label = c("Start\nsurveillance", 
+                           "Last\nbiopsy",
+                           "Current\nvisit")), color='white',
+             size= LABEL_SIZE + 1.75,
+             fill=c(WARNING_COLOR, SUCCESS_COLOR, 'black')) +
+  theme_bw() +
+  theme(text = element_text(size = FONT_SIZE),
+        panel.background = element_blank(),
+        axis.text = element_blank(),
+        axis.title.y = element_blank(),
+        axis.ticks = element_blank(),
+        panel.border = element_blank(),
+        panel.grid = element_blank(),
+        plot.margin = margin(0,0,0,0, unit = "pt")) + 
+  xlab("Follow-up time (years)") + ylim(-0.1,0.1) + 
+  xlim(min_x,MAX_FOLLOW_UP)
+
+delay_plot = ggplot() + geom_col(aes(x=rep(1:4,2), 
+                                     y=c(expected_delays, 12 - expected_delays)),
+                                 color='black', fill=c(rep(c('darkgrey','white'), length(expected_delays))),
+                                 width=0.5)+
+  ylab("Expected time delay (months) in detecting progression") + 
+  xlab("Schedule") +
+  scale_y_continuous(breaks = seq(0, 12, length.out = 7),
+                     labels = round(seq(0,12, length.out = 7),1),
+                     limits=c(0,12))+
+  scale_x_continuous(breaks=1:4, labels = names(expected_delays)) +
+  coord_flip() +
+  theme_bw() + 
+  theme(text = element_text(size = FONT_SIZE))
+
+
+demo_schedule = ggpubr::ggarrange(risk_plot, schedule_plot, 
+                                  label_plot, delay_plot,
+                                  ncol=1, align = "v",
+                                  hjust = -1.5,
+                                  heights = c(1,0.8,0.5,0.85),
+                                  legend = "none")
+
+print(demo_schedule)
+```
+
+
+# Peformance of Personalized Schedules
+
+## Simulation
+
+- We...
+
+## Simulation (cont'd)
+
+- We...
+
+## Simulation (cont'd)
+
+```{r, echo = FALSE, warning = FALSE}
+load("./workspaces/Figure6.RData")
+
+a = ggplot(biopsyDf_summary[biopsyDf_summary$progressed==1,]) +
+  geom_boxplot(aes(x=schedule, y=nb), outlier.shape = NA) +
+  theme_bw() + 
+  scale_y_continuous(breaks = c(1,4,7,10), limits = c(1,10)) +
+  theme(text=element_text(size=FONT_SIZE)) +
+  xlab("Schedule") + ylab("Number of biopsies") +
+  coord_flip() +
+  ggtitle("Progressing patients")
+
+b = ggplot(biopsyDf_summary[biopsyDf_summary$progressed==1,]) +
+  geom_boxplot(aes(x=schedule, y=delay), outlier.shape = NA)+
+  theme_bw() + 
+  scale_y_continuous(breaks = 0:4, limits = c(0,4)) +
+  theme(axis.text.y = element_blank(), axis.title.y = element_blank(),
+        text=element_text(size=FONT_SIZE)) +
+  xlab("Schedule") + ylab("Time delay in detection\nof progression (years)")+
+  coord_flip()
+
+c = ggplot(biopsyDf_summary[biopsyDf_summary$progressed==0,]) +
+  geom_boxplot(aes(x=schedule, y=nb), outlier.shape = NA) +
+  theme_bw() +
+  scale_y_continuous(breaks = c(1,4,7,10), limits = c(1,10)) +
+  theme(text=element_text(size=FONT_SIZE)) +
+  xlab("Schedule") + ylab("Number of biopsies") +
+  coord_flip() +
+  ggtitle("Non-progressing patients")
+
+d = ggplot() +
+  geom_boxplot(data=biopsyDf_summary[biopsyDf_summary$progressed==0,],
+               aes(x=schedule, y=-1), outlier.shape = NA)+
+  geom_text(aes(x="Risk: 10%", y=2), label="Time delay cannot be calculated for\nnon-progressing patients")+
+  theme_bw() + 
+  scale_y_continuous(breaks = 0:4, limits = c(0,4)) +
+  theme(axis.text.y = element_blank(), axis.title.y = element_blank(),
+        text=element_text(size=FONT_SIZE)) +
+  xlab("Schedule") + ylab("Time delay in detection\nof progression (years)")+ 
+  coord_flip()
+
+upper_plot = ggarrange(a,b, nrow=1, ncol=2, align = "h", widths = c(1.225,1))
+lower_plot = ggarrange(c,d, nrow=1, ncol=2, align = "h", widths = c(1.225,1))
+
+final_plot = ggpubr::ggarrange(upper_plot, lower_plot, 
+                               nrow=2, ncol=1, align = "v", labels = NULL)
+
+print(final_plot)
+
+```
+
 ***
 
 <br/> 
