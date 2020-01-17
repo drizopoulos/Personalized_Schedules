@@ -952,10 +952,31 @@ print(final_plot)
 
 # Discussion
 
-## XXX
+## Some Considerations
 
-- XXX
+- Calibration
+  + calculation of expected delay and number of biopsies require a well-calibrated model
+  
+<br/>
 
+- Schedules become more personalized the better biomarkers distinguish patients
+  + consider more biomarkers, e.g., for postate cance MRI
+
+## Resources
+
+- Paper available at: 
+  + [Biometrics](https://onlinelibrary.wiley.com/doi/10.1111/biom.12940)
+  + [Medical Decision Making](https://journals.sagepub.com/doi/10.1177/0272989X19861963)
+
+<br/>
+
+- Software: available in **JMbayes** on CRAN & GitHub
+    + [https://cran.r-project.org/package=JMbayes](https://cran.r-project.org/package=JMbayes)
+    + [https://github.com/drizopoulos/JMbayes](https://github.com/drizopoulos/JMbayes)
+    
+<br/>
+
+- Online shiny app available at [https://emcbiostatistics.shinyapps.io/prias_biopsy_recommender/](https://emcbiostatistics.shinyapps.io/prias_biopsy_recommender/)
 
 
 ***
