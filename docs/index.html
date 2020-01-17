@@ -548,7 +548,7 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 <p><br/></p>
 
 <ul>
-<li>The expected number of biopsies will be \[\mathcal N_j(\kappa^*) = \sum_{n = 1}^N \mbox{I}\{\pi_j(s_n \mid t_n, v) \geq \kappa\} \times \{1 - \pi_j(t_{n-1} \mid t_{n-2}, v)\}\]</li>
+<li>The expected number of biopsies will be \[\mathcal N_j(\kappa^*) = \sum_{n = 1}^N \mbox{I}\{\pi_j(s_n \mid t_n, v) \geq \kappa^*\} \times \{1 - \pi_j(t_{n-1} \mid t_{n-2}, v)\}\]</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-6">
@@ -592,7 +592,12 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 <p><br/></p>
 
 <ul>
-<li>Othrewise, we may also select a clinically acceptable delay, and select the \(\kappa\) that minimizes the number of biopsies</li>
+<li>Othrewise,
+
+<ul>
+<li>we may also select a clinically acceptable delay, and</li>
+<li>select \({\color{red} \kappa_n^{opt}}\) the \(\kappa\) that minimizes the expected number of biopsies</li>
+</ul></li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-11">
@@ -609,21 +614,87 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Peformance of Personalized Schedules</h2></hgroup><article  id="peformance-of-personalized-schedules">
 
-</article></slide><slide class=""><hgroup><h2>Simulation</h2></hgroup><article  id="simulation">
+</article></slide><slide class=""><hgroup><h2>Simulation - Desing</h2></hgroup><article  id="simulation---desing">
 
 <ul>
-<li>We…</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Simulation (cont’d)</h2></hgroup><article  id="simulation-contd">
+<li><span style="color:green">
+Simulation study</span>:
 
 <ul>
-<li>We…</li>
+<li>The same characteristics as in PRIAS</li>
+<li>500 datasets x (750 training + 250 test) patients</li>
+</ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Simulation (cont’d)</h2></hgroup><article  id="simulation-contd-1">
+</article></slide><slide class=""><hgroup><h2>Simulation - Desing (cont’d)</h2></hgroup><article  id="simulation---desing-contd">
+
+<ul>
+<li>For illustration purposes, we define:
+
+<ul>
+<li><span style="color:black">
+Slow progression</span>: patients who never progress (50%)</li>
+<li>Remaining 50%:
+
+<ul>
+<li><span style="color:black">
+Fast progression</span>: 30% progression in 0 to 3.5 years</li>
+<li><span style="color:black">
+Intermediate progression</span>: 20% progression in 3.5 to 10 years</li>
+</ul></li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Simulation - Desing (cont’d)</h2></hgroup><article  id="simulation---desing-contd-1">
+
+<ul>
+<li><span style="color:red">
+Fixed</span>:
+
+<ul>
+<li>PRIAS (biopsy every 3 years, and if PSA goes up too fast then annual biopsy)</li>
+<li>Annual (annual biopsies)</li>
+</ul></li>
+</ul>
+
+<p><br/></p>
+
+<ul>
+<li><span style="color:green">
+Personalized (risk based)</span>:
+
+<ul>
+<li>5% risk threshold</li>
+<li>10% risk threshold</li>
+<li>time-varying threshold minimizing expected delay &amp; number of biopsies</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Simulation - Desing (cont’d)</h2></hgroup><article  id="simulation---desing-contd-2">
+
+<p><br/> <br/></p>
+
+<ul>
+<li><span style="color:black">
+Comparison criteria </span>
+
+<ul>
+<li>Number of biopsies until cancer progression</li>
+<li>Delay in detection of cancer progression</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Simulation - Results</h2></hgroup><article  id="simulation---results">
 
 <p><img src="index_files/figure-html/unnamed-chunk-8-1.png" width="720" /></p>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Discussion</h2></hgroup><article  id="discussion">
+
+</article></slide><slide class=""><hgroup><h2>XXX</h2></hgroup><article  id="xxx">
+
+<ul>
+<li>XXX</li>
+</ul>
 
 </article></slide><slide class=""><hgroup><h2></h2></hgroup><article >
 

@@ -619,7 +619,7 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 <br/>
 
 - The expected number of biopsies will be
-$$\mathcal N_j(\kappa^*) = \sum_{n = 1}^N \mbox{I}\{\pi_j(s_n \mid t_n, v) \geq \kappa\} \times \{1 - \pi_j(t_{n-1} \mid t_{n-2}, v)\}$$
+$$\mathcal N_j(\kappa^*) = \sum_{n = 1}^N \mbox{I}\{\pi_j(s_n \mid t_n, v) \geq \kappa^*\} \times \{1 - \pi_j(t_{n-1} \mid t_{n-2}, v)\}$$
 
 ## Personalized Schedule (cont'd)
 
@@ -712,7 +712,10 @@ $${\color{red} \kappa_n^{opt}} = \mbox{argmin}_{\kappa} \sqrt{ \bigl \{ \mathcal
 
 <br/>
 
-- Othrewise, we may also select a clinically acceptable delay, and select the $\kappa$ that minimizes the number of biopsies
+- Othrewise, 
+  + we may also select a clinically acceptable delay, and 
+  + select ${\color{red} \kappa_n^{opt}}$ the $\kappa$ that minimizes the expected number 
+  of biopsies
 
 ## Personalized Schedule (cont'd)
 
@@ -860,15 +863,41 @@ print(demo_schedule)
 
 # Peformance of Personalized Schedules
 
-## Simulation
+## Simulation - Desing
 
-- We...
+- <span style="color:green">Simulation study</span>:
+    - The same characteristics as in PRIAS
+    - 500 datasets x (750 training + 250 test) patients
 
-## Simulation (cont'd)
+## Simulation - Desing (cont'd)
+- For illustration purposes, we define:
+    - <span style="color:black">Slow progression</span>: patients who never progress (50%)
+    - Remaining 50%:
+        - <span style="color:black">Fast progression</span>: 30% progression in 0 to 3.5 years
+        - <span style="color:black">Intermediate progression</span>: 20% progression in 3.5 to 10 years
 
-- We...
+## Simulation - Desing (cont'd)
+- <span style="color:red">Fixed</span>:
+    - PRIAS (biopsy every 3 years, and if PSA goes up too fast then annual biopsy)
+    - Annual (annual biopsies)
 
-## Simulation (cont'd)
+<br/>
+
+- <span style="color:green">Personalized (risk based)</span>:
+    - 5% risk threshold
+    - 10% risk threshold
+    - time-varying threshold minimizing expected delay & number of biopsies
+
+## Simulation - Desing (cont'd)
+
+<br/>
+<br/>
+
+- <span style="color:black">Comparison criteria </span>
+    - Number of biopsies until cancer progression
+    - Delay in detection of cancer progression
+
+## Simulation - Results
 
 ```{r, echo = FALSE, warning = FALSE}
 load("./workspaces/Figure6.RData")
@@ -920,6 +949,14 @@ final_plot = ggpubr::ggarrange(upper_plot, lower_plot,
 print(final_plot)
 
 ```
+
+# Discussion
+
+## XXX
+
+- XXX
+
+
 
 ***
 
