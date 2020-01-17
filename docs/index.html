@@ -192,7 +192,7 @@ Biopsies</span></li>
 
 <p><br/></p>
 
-<div align="right" style="text-align:center;width:50%;border:3px solid black">
+<div style="text-align:center;width:50%;border:3px solid black" align="right">
 <p><br/><br/> <strong><font size="6" color = "red">Frequency of Biopsies</font></strong> <br/><br/></p></div>
 
 </article></slide><slide class=""><hgroup><h2>Prostate Cancer Active Surveillance (cont’d)</h2></hgroup><article  id="prostate-cancer-active-surveillance-contd-1">
@@ -496,7 +496,7 @@ s_N = h
 <p><br/></p>
 
 <div style="text-align:center;width:600px;border:3px solid black">
-<p><br/> <strong><font size="6" color = "red">How to we select \({\color{red} \kappa_n}\)?</font></strong> <br/></p></div>
+<p><br/> <strong><font size="6" color = "red">How do we select \({\color{red} \kappa_n}\)?</font></strong> <br/></p></div>
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-2">
 
@@ -537,7 +537,18 @@ s_N = h
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-5">
 
 <ul>
-<li>The expected number of biopsies will be \[\mathcal N_j(\kappa^*) = \sum_{n = 1}^N \mbox{I}\{\pi_j(s_n \mid t_n, v) \geq \kappa\} \times \{1 - \pi_j(s_n \mid t_n, v)\}\]</li>
+<li>The times when biopsies are performed \[t_n = \left\{
+\begin{array}{l}
+t_{n-1} : \pi_j(s_n \mid t_{n - 1}, v) &lt; \kappa^*\\\\
+s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
+\end{array}
+\right.\]</li>
+</ul>
+
+<p><br/></p>
+
+<ul>
+<li>The expected number of biopsies will be \[\mathcal N_j(\kappa^*) = \sum_{n = 1}^N \mbox{I}\{\pi_j(s_n \mid t_n, v) \geq \kappa\} \times \{1 - \pi_j(t_{n-1} \mid t_{n-2}, v)\}\]</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-6">
@@ -546,18 +557,18 @@ s_N = h
 <li>For a specific threshold \(\kappa^*\) we can calculate
 
 <ul>
-<li>the expected delay</li>
+<li>the expected delay \[\begin{array}{l}
+\mathcal D_j(\kappa^*) = \sum_{n = 1}^N \bigl \{ s_n - E(T_j^* \mid s_{n-1} \leq T_j^* \leq s_n) \bigr \} \times\\\\ \quad \quad \quad \quad \\Pr(s_{n-1} \leq T_j^* \leq s_n)
+\end{array}\]</li>
 </ul></li>
 </ul>
 
-<p>\[\mathcal D_j(\kappa^*) = \sum_{n = 1}^N \bigl \{ s_n - E(T_j^* \mid s_{n-1} \leq T_j^* \leq s_n) \bigr \} \times \Pr(s_{n-1} \leq T_j^* \leq s_n)\]</p>
-
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-7">
 
-<p><br></p>
+<p><br/><br/></p>
 
 <ul>
-<li>For different \(\kappa\)’s we can calculate the two-dimensional space</li>
+<li>For different \(\kappa\)’s we construct the two-dimensional space of expected number of biopsies and expected delays</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-8">
@@ -572,11 +583,9 @@ s_N = h
 <li>If we consider that the delay &amp; the number of biopsies are equally important
 
 <ul>
-<li>we can select the \(\kappa_n\) that is closest to the optimal schedule</li>
+<li>we can select the \(\kappa_n\) that is closest to the optimal schedule \[{\color{red} \kappa_n^{opt}} = \mbox{argmin}_{\kappa} \sqrt{ \bigl \{ \mathcal N_j(\kappa) - 1 \bigr \}^2 + \mathcal D_j(\kappa)^2}\]</li>
 </ul></li>
 </ul>
-
-<p>\[\kappa_n^{opt} = \mbox{argmin}_{\kappa} \sqrt{ \bigl \{ \mathcal N_j(\kappa) - 1 \bigr \}^2 + \mathcal D_j(\kappa)^2}\]</p>
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-10">
 

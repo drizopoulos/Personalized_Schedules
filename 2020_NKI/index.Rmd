@@ -369,7 +369,7 @@ $$\pi(s_n \mid t_n, v) \geq \kappa_n$$
 
 <div style="text-align:center;width:600px;border:3px solid black">
 <br/>
-<strong><font size="6" color = "red">How to we select ${\color{red} \kappa_n}$?</font></strong>
+<strong><font size="6" color = "red">How do we select ${\color{red} \kappa_n}$?</font></strong>
 <br/>
 </div>
 
@@ -608,22 +608,33 @@ print(schedule_plot)
 
 ## Personalized Schedule (cont'd)
 
+- The times when biopsies are performed
+$$t_n = \left\{
+\begin{array}{l}
+t_{n-1} : \pi_j(s_n \mid t_{n - 1}, v) < \kappa^*\\\\
+s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
+\end{array}
+\right.$$
+
+<br/>
+
 - The expected number of biopsies will be
-$$\mathcal N_j(\kappa^*) = \sum_{n = 1}^N \mbox{I}\{\pi_j(s_n \mid t_n, v) \geq \kappa\} \times \{1 - \pi_j(s_n \mid t_n, v)\}$$
+$$\mathcal N_j(\kappa^*) = \sum_{n = 1}^N \mbox{I}\{\pi_j(s_n \mid t_n, v) \geq \kappa\} \times \{1 - \pi_j(t_{n-1} \mid t_{n-2}, v)\}$$
 
 ## Personalized Schedule (cont'd)
 
 - For a specific threshold $\kappa^*$ we can calculate
   + the expected delay
-  
-$$\mathcal D_j(\kappa^*) = \sum_{n = 1}^N \bigl \{ s_n - E(T_j^* \mid s_{n-1} \leq T_j^* \leq s_n) \bigr \} \times \Pr(s_{n-1} \leq T_j^* \leq s_n)$$
+  $$\begin{array}{l}
+  \mathcal D_j(\kappa^*) = \sum_{n = 1}^N \bigl \{ s_n - E(T_j^* \mid s_{n-1} \leq T_j^* \leq s_n) \bigr \} \times\\\\ \quad \quad \quad \quad \\Pr(s_{n-1} \leq T_j^* \leq s_n)
+  \end{array}$$
 
 
 ## Personalized Schedule (cont'd)
 
-<br>
+<br/><br/>
 
-- For different $\kappa$'s we can calculate the two-dimensional space
+- For different $\kappa$'s we construct the two-dimensional space of expected number of biopsies and expected delays
 
 ## Personalized Schedule (cont'd)
 
@@ -695,8 +706,7 @@ print(kappa_choice)
 
 - If we consider that the delay & the number of biopsies are equally important
   + we can select the $\kappa_n$ that is closest to the optimal schedule
-
-$$\kappa_n^{opt} = \mbox{argmin}_{\kappa} \sqrt{ \bigl \{ \mathcal N_j(\kappa) - 1 \bigr \}^2 + \mathcal D_j(\kappa)^2}$$
+$${\color{red} \kappa_n^{opt}} = \mbox{argmin}_{\kappa} \sqrt{ \bigl \{ \mathcal N_j(\kappa) - 1 \bigr \}^2 + \mathcal D_j(\kappa)^2}$$
 
 ## Personalized Schedule (cont'd)
 
