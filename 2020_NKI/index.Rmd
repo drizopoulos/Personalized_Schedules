@@ -273,7 +273,8 @@ p(y_{i1}, y_{i2}, T_i^L, T_i^R) & = & \int p(y_{i1} \mid {\color{red} b_{i1}}) \
     <br/>
     
     $$h_i(t) = h_0(t) \exp \{\mathbf \gamma^\top \mathbf w_i + 
-    \alpha_1 {\color{red} \eta_{i1}(t)} + \alpha_2 {\color{blue} \eta_{i1}'(t)}\}$$
+    \alpha_1 {\color{red} \eta_{i1}(t)} + \alpha_2 {\color{blue} \eta_{i1}'(t)}
+    + \alpha_3 {\color{red} \eta_{i2}(t)}\}$$
     <br/>
     where ${\color{blue} \eta_{i1}'(t)} = \frac{d}{dt} \eta_{i1}(t)$
     
@@ -626,7 +627,7 @@ $$\mathcal N_j(\kappa^*) = \sum_{n = 1}^N \mbox{I}\{\pi_j(s_n \mid t_n, v) \geq 
 - For a specific threshold $\kappa^*$ we can calculate
   + the expected delay
   $$\begin{array}{lcl}
-  \mathcal D_j(\kappa^*) & = & \sum_{n = 1}^N \bigl \{ s_n - E(T_j^* \mid s_{n-1} \leq T_j^* \leq s_n) \bigr \} \times\\&&\\ && \quad \quad \quad \Pr(s_{n-1} \leq T_j^* \leq s_n)
+  \mathcal D_j(\kappa^*) & = & \sum\limits_{n = 1}^N \bigl \{ t_n - E(T_j^* \mid t_{n-1} \leq T_j^* \leq t_n) \bigr \} \times\\&&\\ && \quad \quad \quad \Pr(t_{n-1} \leq T_j^* \leq t_n)
   \end{array}$$
 
 

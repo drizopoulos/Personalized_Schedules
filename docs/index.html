@@ -192,7 +192,7 @@ Biopsies</span></li>
 
 <p><br/></p>
 
-<div align="right" style="text-align:center;width:50%;border:3px solid black">
+<div style="text-align:center;width:50%;border:3px solid black" align="right">
 <p><br/><br/> <strong><font size="6" color = "red">Frequency of Biopsies</font></strong> <br/><br/></p></div>
 
 </article></slide><slide class=""><hgroup><h2>Prostate Cancer Active Surveillance (cont’d)</h2></hgroup><article  id="prostate-cancer-active-surveillance-contd-1">
@@ -431,7 +431,8 @@ p(y_{i1}, y_{i2}, T_i^L, T_i^R) &amp; = &amp; \int p(y_{i1} \mid {\color{red} b_
 <p><br/></p>
 
 <p>\[h_i(t) = h_0(t) \exp \{\mathbf \gamma^\top \mathbf w_i + 
-  \alpha_1 {\color{red} \eta_{i1}(t)} + \alpha_2 {\color{blue} \eta_{i1}&#39;(t)}\}\] <br/> where \({\color{blue} \eta_{i1}&#39;(t)} = \frac{d}{dt} \eta_{i1}(t)\)</p></li>
+  \alpha_1 {\color{red} \eta_{i1}(t)} + \alpha_2 {\color{blue} \eta_{i1}&#39;(t)}
+  + \alpha_3 {\color{red} \eta_{i2}(t)}\}\] <br/> where \({\color{blue} \eta_{i1}&#39;(t)} = \frac{d}{dt} \eta_{i1}(t)\)</p></li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Functional Form (cont’d)</h2></hgroup><article  id="functional-form-contd">
@@ -558,7 +559,7 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 
 <ul>
 <li>the expected delay \[\begin{array}{lcl}
-\mathcal D_j(\kappa^*) &amp; = &amp; \sum_{n = 1}^N \bigl \{ s_n - E(T_j^* \mid s_{n-1} \leq T_j^* \leq s_n) \bigr \} \times\\&amp;&amp;\\ &amp;&amp; \quad \quad \quad \Pr(s_{n-1} \leq T_j^* \leq s_n)
+\mathcal D_j(\kappa^*) &amp; = &amp; \sum\limits_{n = 1}^N \bigl \{ t_n - E(T_j^* \mid t_{n-1} \leq T_j^* \leq t_n) \bigr \} \times\\&amp;&amp;\\ &amp;&amp; \quad \quad \quad \Pr(t_{n-1} \leq T_j^* \leq t_n)
 \end{array}\]</li>
 </ul></li>
 </ul>
@@ -690,10 +691,52 @@ Comparison criteria </span>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Discussion</h2></hgroup><article  id="discussion">
 
-</article></slide><slide class=""><hgroup><h2>XXX</h2></hgroup><article  id="xxx">
+</article></slide><slide class=""><hgroup><h2>Some Considerations</h2></hgroup><article  id="some-considerations">
 
 <ul>
-<li>XXX</li>
+<li>Calibration
+
+<ul>
+<li>calculation of expected delay and number of biopsies require a well-calibrated model</li>
+</ul></li>
+</ul>
+
+<p><br/></p>
+
+<ul>
+<li>Schedules become more personalized the better biomarkers distinguish patients
+
+<ul>
+<li>consider more biomarkers, e.g., for postate cance MRI</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Resources</h2></hgroup><article  id="resources">
+
+<ul>
+<li>Paper available at:
+
+<ul>
+<li><a href='https://onlinelibrary.wiley.com/doi/10.1111/biom.12940' title=''>Biometrics</a></li>
+<li><a href='https://journals.sagepub.com/doi/10.1177/0272989X19861963' title=''>Medical Decision Making</a></li>
+</ul></li>
+</ul>
+
+<p><br/></p>
+
+<ul>
+<li>Software: available in <strong>JMbayes</strong> on CRAN &amp; GitHub
+
+<ul>
+<li><a href='https://cran.r-project.org/package=JMbayes' title=''>https://cran.r-project.org/package=JMbayes</a></li>
+<li><a href='https://github.com/drizopoulos/JMbayes' title=''>https://github.com/drizopoulos/JMbayes</a></li>
+</ul></li>
+</ul>
+
+<p><br/></p>
+
+<ul>
+<li>Online shiny app available at <a href='https://emcbiostatistics.shinyapps.io/prias_biopsy_recommender/' title=''>https://emcbiostatistics.shinyapps.io/prias_biopsy_recommender/</a></li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2></h2></hgroup><article >
