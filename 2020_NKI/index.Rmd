@@ -71,18 +71,18 @@ over-diagnosis and over-treatment</font>
 ## Prostate Cancer Active Surveillance (cont'd)
 
 - Two dimensions
-  + <strong><font color = "red">Frequency</font></strong> of biopsies
+  + <strong><font color = "red">Number of biopsies</font></strong>
   + <strong><font color = "red">Delay</font></strong> in finding progression
   
 <br/>
 
 - <strong><font color = "red">Delay</font></strong>: We want to find progression asap
-  + typically delay $\leq 12-18$ months
+  + typically delay $\leq 18-24$ months
   
 
 <br/>
 
-- <strong><font color = "red">Frequency</font></strong>: Biopsies have high burden
+- <strong><font color = "red">Number of biopsies</font></strong>: high burden
   + painful, cause complications, expensive
 
 ## Biopsies Schedules
@@ -334,7 +334,7 @@ $$\pi_j(u \mid t, v) = \Pr \bigl \{ T_j^* \leq u \mid T_j^* \geq t, \mathcal Y_{
 <br/>
 
   + $t$ time of last biopsy
-  + $v$ time of current visit
+  + $v$ time of current visit, $v \geq t$
   + $u$ future time
   + $\mathcal Y_{j1}(v)$ & $\mathcal Y_{j2}(v)$ available PSA & DRE measurements up to 
   current visit
