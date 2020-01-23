@@ -27,7 +27,7 @@ load("./workspaces/data_example.RData")
 
 # Background & Motivation
 
-## Prostate Cancer (PC)
+## Prostate Cancer (PCa)
 
 - PC is the 2nd most frequently diagnosed cancer in males worldwide
     + the most frequent in economically developed countries
@@ -44,7 +44,7 @@ load("./workspaces/data_example.RData")
 over-diagnosis and over-treatment</font>
     + standard treatments have serious side-effects
 
-## Prostate Cancer Active Surveillance
+## PCa Active Surveillance
 - To avoid over-treatment, men with low grade prostate cancer are advised active surveillance
 
 <br/>
@@ -55,7 +55,7 @@ over-diagnosis and over-treatment</font>
     - MRI
     - <span style="color:red">Biopsies</span>
 
-## Prostate Cancer Active Surveillance (cont'd)
+## PCa Active Surveillance (cont'd)
 
 - Treatment is advised when cancer progression is observed
     - typically via biopsies when Gleason Score $\geq 7$
@@ -68,7 +68,7 @@ over-diagnosis and over-treatment</font>
 <br/><br/>
 </div>
 
-## Prostate Cancer Active Surveillance (cont'd)
+## PCa Active Surveillance (cont'd)
 
 - Two dimensions
   + <strong><font color = "red">Number of biopsies</font></strong>
@@ -267,7 +267,7 @@ p(y_{i1}, y_{i2}, T_i^L, T_i^R) & = & \int p(y_{i1} \mid {\color{red} b_{i1}}) \
 
 <br/>
 
-- Biomarker's rate of change
+- PSA velocity
     + fast increasing PSA indicative of progression
     
     <br/>
