@@ -1,7 +1,7 @@
 ---
 title: "Personalized Schedules for Prostate Cancer"
-author: "Dimitris Rizopoulos"
-date: "Netherlands Cancer Institute<br/> January 23, 2020"
+author: "Anirudh Tomer & Dimitris Rizopoulos"
+date: "LUMC - EMC Survival Meeting<br/> January 30, 2020"
 output:
   ioslides_presentation:
     css: pres.css
