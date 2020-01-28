@@ -335,7 +335,7 @@ $$\pi_j(u \mid t, v) = \Pr \bigl \{ T_j^* \leq u \mid T_j^* \geq t, \mathcal Y_{
 
   + $t$ time of last biopsy
   + $v$ time of current visit, $v \geq t$
-  + $u$ future time
+  + $u$ future time, $u \geq t$
   + $\mathcal Y_{j1}(v)$ & $\mathcal Y_{j2}(v)$ available PSA & DRE measurements up to 
   current visit
 
