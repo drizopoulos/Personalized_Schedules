@@ -192,7 +192,7 @@ Biopsies</span></li>
 
 <p><br/></p>
 
-<div align="right" style="text-align:center;width:50%;border:3px solid black">
+<div style="text-align:center;width:50%;border:3px solid black" align="right">
 <p><br/><br/> <strong><font size="6" color = "red">Frequency of Biopsies</font></strong> <br/><br/></p></div>
 
 </article></slide><slide class=""><hgroup><h2>PCa Active Surveillance (cont’d)</h2></hgroup><article  id="pca-active-surveillance-contd-1">
@@ -401,22 +401,6 @@ y_{i1}(t) &amp; = &amp; {\color{red} \eta_{i1}(t)} + \varepsilon_i(t)\\
 \end{array}
 \right.\] <br/><br/></p>
 
-</article></slide><slide class=""><hgroup><h2>The Basic Joint Model (cont’d)</h2></hgroup><article  id="the-basic-joint-model-contd-2">
-
-<p><br/></p>
-
-<ul>
-<li>The longitudinal and survival outcomes are jointly modeled \[\begin{eqnarray}
-p(y_{i1}, y_{i2}, T_i^L, T_i^R) &amp; = &amp; \int p(y_{i1} \mid {\color{red} b_{i1}}) \; p(y_{i2} \mid {\color{red} b_{i2}}) \times \\
-&amp;&amp; \quad \quad  
-\left\{S(T_i^L \mid {\color{red} b_i}) - S(T_i^R \mid {\color{red} b_i})\right\} p({\color{red} b_i}) \; d{\color{red} b_i}\\
-\end{eqnarray}\] <br/>
-
-<ul>
-<li>the random effects \({\color{red} b_i}\) explain the interdependencies</li>
-</ul></li>
-</ul>
-
 </article></slide><slide class=""><hgroup><h2>Functional Form</h2></hgroup><article  id="functional-form">
 
 <p><br/></p>
@@ -456,6 +440,10 @@ p(y_{i1}, y_{i2}, T_i^L, T_i^R) &amp; = &amp; \int p(y_{i1} \mid {\color{red} b_
 <li>\(\mathcal Y_{j1}(v)\) &amp; \(\mathcal Y_{j2}(v)\) available PSA &amp; DRE measurements up to current visit</li>
 </ul>
 
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd">
+
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="720" /></p>
+
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule</h2></hgroup><article  id="personalized-schedule">
 
 <ul>
@@ -476,7 +464,11 @@ s_N = h
 \end{array}\]</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-1">
+
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" width="720" /></p>
+
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-2">
 
 <ul>
 <li><font color = "red">Simple decision rule:</font> We do a biopsy at \(s_n\) if <br/><br/> \[\pi(s_n \mid t_n, v) \geq \kappa_n\]</li>
@@ -488,7 +480,11 @@ s_N = h
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-1">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-3">
+
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" width="720" /></p>
+
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-4">
 
 <ul>
 <li>The key question is</li>
@@ -499,7 +495,7 @@ s_N = h
 <div style="text-align:center;width:600px;border:3px solid black">
 <p><br/> <strong><font size="6" color = "red">How do we select \({\color{red} \kappa_n}\)?</font></strong> <br/></p></div>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-2">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-5">
 
 <ul>
 <li>We consider two relevant quantities
@@ -515,7 +511,7 @@ s_N = h
 <div style="text-align:center;width:700px;border:3px solid black">
 <p><br/> <strong><font size="5" color = "red">Ideally, we would like to just do one biopsy at exactly the time point of progression</font></strong> <br/></p></div>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-3">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-6">
 
 <ul>
 <li>For different thresholds \(\kappa_n\) we would obtain different number of biopsies and different delays…</li>
@@ -531,11 +527,11 @@ s_N = h
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-4">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-7">
 
-<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="720" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" width="720" /></p>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-5">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-8">
 
 <ul>
 <li>The times when biopsies are performed \[t_n = \left\{
@@ -552,7 +548,7 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 <li>The expected number of biopsies will be \[\mathcal N_j(\kappa^*) = \sum_{n = 1}^N \mbox{I}\{\pi_j(s_n \mid t_n, v) \geq \kappa^*\} \times \{1 - \pi_j(t_{n-1} \mid t, v)\}\]</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-6">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-9">
 
 <ul>
 <li>For a specific threshold \(\kappa^*\) we can calculate
@@ -565,7 +561,7 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-7">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-10">
 
 <p><br/><br/></p>
 
@@ -573,11 +569,11 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 <li>For different \(\kappa\)’s we construct the two-dimensional space of expected number of biopsies and expected delays</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-8">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-11">
 
-<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" width="720" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" width="720" /></p>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-9">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-12">
 
 <p><br/></p>
 
@@ -589,7 +585,7 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-10">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-13">
 
 <p><br/></p>
 
@@ -602,7 +598,7 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-11">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-14">
 
 <p><br/><br/></p>
 
