@@ -29,7 +29,7 @@ load("./workspaces/data_example.RData")
 
 ## Prostate Cancer (PCa)
 
-- PC is the 2nd most frequently diagnosed cancer in males worldwide
+- PCa is the 2nd most frequently diagnosed cancer in males worldwide
     + the most frequent in economically developed countries
     
 <br/>
@@ -121,13 +121,6 @@ over-diagnosis and over-treatment</font>
 - Scheduling based on individualized risk predictions
     - <span style="color:blue">Progression rate is not only different between patients but also dynamically 
 changes over time for the same patient</span>
-
-<br/>
-
-- Risk predictions based upon
-    - <span style="color:red">All available</span> PSA (ng/mL) measurements
-    - <span style="color:red">All available</span> DRE (T1c / above T1c) measurements
-    - <span style="color:green">Time and results of previous biopsies</span>
 
 ## A New Approach (cont'd)
 
@@ -222,13 +215,6 @@ saveGIF({
 
 # Personalizing the Biopsy Schedules
 
-## Some Notation
-
-- We need some minimal notation
-    + $T_i^*$ the true reclassification time
-    + $\mathcal Y_{i1}(t) = \{y_{i1}(s), 0 \leq s < t\}$
-    + $\mathcal Y_{i2}(t) = \{y_{i2}(s), 0 \leq s < t\}$
-
 ## Risk of Progression
 
 - Using the fitted joint model we can calculate the cumulative risk of progression
@@ -236,6 +222,7 @@ $$\pi_j(u \mid t, v) = \Pr \bigl \{ T_j^* \leq u \mid T_j^* \geq t, \mathcal Y_{
 
 <br/>
 
+  + $T_i^*$ the true reclassification time
   + $t$ time of last biopsy
   + $v$ time of current visit, $v \geq t$
   + $u$ future time, $u \geq t$
@@ -1229,13 +1216,6 @@ $${\color{red} \kappa_n^{opt}} = \mbox{argmin}_{\kappa} \sqrt{ \bigl \{ \mathcal
   + we may also select a clinically acceptable delay, and 
   + select ${\color{red} \kappa_n^{opt}}$ the $\kappa$ that minimizes the expected number 
   of biopsies
-
-## Personalized Schedule (cont'd)
-
-<br/><br/>
-
-- An illustration...
-
 
 # Discussion
 

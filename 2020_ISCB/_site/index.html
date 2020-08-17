@@ -131,7 +131,7 @@ slide:not(.current) .plotly.html-widget{
 </article></slide><slide class=""><hgroup><h2>Prostate Cancer (PCa)</h2></hgroup><article  id="prostate-cancer-pca">
 
 <ul>
-<li>PC is the 2nd most frequently diagnosed cancer in males worldwide
+<li>PCa is the 2nd most frequently diagnosed cancer in males worldwide
 
 <ul>
 <li>the most frequent in economically developed countries</li>
@@ -284,21 +284,6 @@ Progression rate is not only different between patients but also dynamically cha
 </ul></li>
 </ul>
 
-<p><br/></p>
-
-<ul>
-<li>Risk predictions based upon
-
-<ul>
-<li><span style="color:red">
-All available</span> PSA (ng/mL) measurements</li>
-<li><span style="color:red">
-All available</span> DRE (T1c / above T1c) measurements</li>
-<li><span style="color:green">
-Time and results of previous biopsies</span></li>
-</ul></li>
-</ul>
-
 </article></slide><slide class=""><hgroup><h2>A New Approach (cont’d)</h2></hgroup><article  id="a-new-approach-contd">
 
 <p><img src="index_files/figure-html/unnamed-chunk-1-1.png" width="720" /></p>
@@ -369,18 +354,6 @@ Time and results of previous biopsies</span></li>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Personalizing the Biopsy Schedules</h2></hgroup><article  id="personalizing-the-biopsy-schedules">
 
-</article></slide><slide class=""><hgroup><h2>Some Notation</h2></hgroup><article  id="some-notation">
-
-<ul>
-<li>We need some minimal notation
-
-<ul>
-<li>\(T_i^*\) the true reclassification time</li>
-<li>\(\mathcal Y_{i1}(t) = \{y_{i1}(s), 0 \leq s &lt; t\}\)</li>
-<li>\(\mathcal Y_{i2}(t) = \{y_{i2}(s), 0 \leq s &lt; t\}\)</li>
-</ul></li>
-</ul>
-
 </article></slide><slide class=""><hgroup><h2>Risk of Progression</h2></hgroup><article  id="risk-of-progression">
 
 <ul>
@@ -390,6 +363,7 @@ Time and results of previous biopsies</span></li>
 <p><br/></p>
 
 <ul>
+<li>\(T_i^*\) the true reclassification time</li>
 <li>\(t\) time of last biopsy</li>
 <li>\(v\) time of current visit, \(v \geq t\)</li>
 <li>\(u\) future time, \(u \geq t\)</li>
@@ -552,14 +526,6 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 <li>we may also select a clinically acceptable delay, and</li>
 <li>select \({\color{red} \kappa_n^{opt}}\) the \(\kappa\) that minimizes the expected number of biopsies</li>
 </ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-14">
-
-<p><br/><br/></p>
-
-<ul>
-<li>An illustration…</li>
 </ul>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Discussion</h2></hgroup><article  id="discussion">
