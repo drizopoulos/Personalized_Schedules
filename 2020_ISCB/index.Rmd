@@ -893,7 +893,7 @@ print(schedule_plot)
 
 ## Personalized Schedule (cont'd)
 
-- We consider two relevant quantities
+- We consider the two relevant quantities
   + the number of biopsies
   + the delay in finding progression
 
