@@ -200,7 +200,7 @@ print(xyplot(log2psa ~ visitTimeYears | id,
 <br/>
 </div>
 
-## The Basic Joint Model
+## Joint Models
 
 ```{r, echo = FALSE, results = 'hide', message=FALSE}
 saveGIF({
@@ -219,99 +219,15 @@ saveGIF({
 
 <img src="JM.gif" alt="DynPreds" style="margin:0px 0px 0px 0px; width:500px;"> 
 
-## The Basic Joint Model (cont'd)
-
-- We need some notation
-    + $T_i^*$ the true reclassification time
-    + $T_i^L$ last biopsy time point Gleason Score was $< 7$
-    + $T_i^R$ first biopsy time point Gleason Score was $\geq 7$
-    + $T_i^R = \infty$ for patients who haven't been reclassified yet
-    + $\mathbf y_{i1}$ vector of longitudinal PSA measurements
-    + $\mathcal Y_{i1}(t) = \{y_{i1}(s), 0 \leq s < t\}$
-    + $\mathbf y_{i2}$ vector of longitudinal DRE measurements
-    + $\mathcal Y_{i2}(t) = \{y_{i2}(s), 0 \leq s < t\}$
-    
-
-## The Basic Joint Model (cont'd)
-
-$$\left \{
-\begin{array}{ccl}
-h_i(t) & = & h_0(t) \exp \{\mathbf \gamma^\top \mathbf w_i + 
-\alpha_1 {\color{red} \eta_{i1}(t)} + \alpha_2 {\color{blue} \eta_{i2}(t)}\}\\&&\\
-y_{i1}(t) & = & {\color{red} \eta_{i1}(t)} + \varepsilon_i(t)\\
-& = & \mathbf x_{i1}^\top(t) \mathbf \beta_1 + 
-\mathbf z_{i1}^\top(t) \mathbf b_{i1} + \varepsilon_i(t)\\&&\\
-\log\frac{\Pr\{y_{i2}(t) = 1\}}{1 - \Pr\{y_{i2}(t) = 1\}} & = & {\color{blue} \eta_{i2}(t)}\\
-& = & \mathbf x_{i2}^\top(t) \mathbf \beta_2 + 
-\mathbf z_{i2}^\top(t) \mathbf b_{i2}\\&&\\
-\mathbf \{b_{i1}, b_{i2}\} \sim \mathcal N(\mathbf 0, \mathbf D), & &
-\varepsilon_i(t) \sim \mathcal N(0, \sigma^2)
-\end{array}
-\right.$$
-<br/><br/>
-
-## Functional Form
-
-<br/>
-
-- PSA velocity
-    + fast increasing PSA indicative of progression
-    
-    <br/>
-    
-    $$h_i(t) = h_0(t) \exp \{\mathbf \gamma^\top \mathbf w_i + 
-    \alpha_1 {\color{red} \eta_{i1}(t)} + \alpha_2 {\color{blue} \eta_{i1}'(t)}
-    + \alpha_3 {\color{red} \eta_{i2}(t)}\}$$
-    <br/>
-    where ${\color{blue} \eta_{i1}'(t)} = \frac{d}{dt} \eta_{i1}(t)$
-    
-## Functional Form (cont'd)
-
-```{r, echo = FALSE, results = 'hide', message=FALSE}
-saveGIF({
-  for (i in 1:20) {
-  set.seed(1234)
-times <- seq(0.01, 10, len = 15)
-m <- rnorm(length(times), 1 + cos(0.5 * times), 0.5)
-h <-  0.5 * 0.8 * times^(0.8-1) * exp(-1.2 * m)
-DD <- data.frame(
-    val = c(h, m),
-    times = times,
-    what = gl(2, length(times), labels = c("hazard function", "longitudinal outcome")))
-tts <- seq(0, 10, length = 20)
-print(xyplot(val ~ times | what, data = DD,
-             scales = list(y = list(relation = "free")), layout = c(1, 2), as.table = TRUE,
-             ylab = "", xlab = "Time", panel = function (x, y) {
-                 if (panel.number() == 1) {
-                     panel.xyplot(x, y, type = "smooth", lwd = 3, col = 2)
-                     panel.abline(v = tts[i], lwd = 2, lty = 2,
-                                  col = 1)
-                 } else {
-                     ind <- c(1, 3, 4, 5, 9, 11, 14, 15)
-                     panel.xyplot(x[ind], y[ind], type = "p", col = 1, pch = 8,
-                                  lwd = 3)
-                     panel.abline(v = tts[i], lwd = 2, lty = 2,
-                                  col = 1)
-                     yy <- 1 + cos(0.5 * x)
-                     panel.xyplot(x, yy, type = "l", lwd = 3,
-                                  col = 3)
-                     #
-                     a1 <- tts[i]
-                     y1 <- 1 + cos(0.5 * a1)
-                     y1d <- - 0.5 * sin(0.5 * a1)
-                     xx <- seq(a1 - 0.75, a1 + 0.75, len = 3)
-                     extra <- if (a1 < 3) 0.06 else -0.07
-                     yy <- y1 + y1d * (xx - a1) + extra
-                     panel.xyplot(xx, yy, type = "l", lwd = 3, col = "magenta")
-                 }
-             }))
-  }
-}, movie.name = "./tdSlope.gif")
-```
-
-<img src="tdSlope.gif" alt="TD_slopes" style="margin:0px 0px 0px 0px; width:500px;"> 
 
 # Personalizing the Biopsy Schedules
+
+## Some Notation
+
+- We need some minimal notation
+    + $T_i^*$ the true reclassification time
+    + $\mathcal Y_{i1}(t) = \{y_{i1}(s), 0 \leq s < t\}$
+    + $\mathcal Y_{i2}(t) = \{y_{i2}(s), 0 \leq s < t\}$
 
 ## Risk of Progression
 

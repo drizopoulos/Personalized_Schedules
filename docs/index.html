@@ -363,67 +363,23 @@ Time and results of previous biopsies</span></li>
 <div style="text-align:center;width:800px;border:3px solid black">
 <p><br/> <strong><font size="6" color = "red">Joint Models for Longitudinal &amp; Survival Data</font></strong> <br/></p></div>
 
-</article></slide><slide class=""><hgroup><h2>The Basic Joint Model</h2></hgroup><article  id="the-basic-joint-model">
+</article></slide><slide class=""><hgroup><h2>Joint Models</h2></hgroup><article  id="joint-models">
 
 <p><img src="JM.gif" alt="DynPreds" style="margin:0px 0px 0px 0px; width:500px;"></p>
 
-</article></slide><slide class=""><hgroup><h2>The Basic Joint Model (cont’d)</h2></hgroup><article  id="the-basic-joint-model-contd">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Personalizing the Biopsy Schedules</h2></hgroup><article  id="personalizing-the-biopsy-schedules">
+
+</article></slide><slide class=""><hgroup><h2>Some Notation</h2></hgroup><article  id="some-notation">
 
 <ul>
-<li>We need some notation
+<li>We need some minimal notation
 
 <ul>
 <li>\(T_i^*\) the true reclassification time</li>
-<li>\(T_i^L\) last biopsy time point Gleason Score was \(&lt; 7\)</li>
-<li>\(T_i^R\) first biopsy time point Gleason Score was \(\geq 7\)</li>
-<li>\(T_i^R = \infty\) for patients who haven’t been reclassified yet</li>
-<li>\(\mathbf y_{i1}\) vector of longitudinal PSA measurements</li>
 <li>\(\mathcal Y_{i1}(t) = \{y_{i1}(s), 0 \leq s &lt; t\}\)</li>
-<li>\(\mathbf y_{i2}\) vector of longitudinal DRE measurements</li>
 <li>\(\mathcal Y_{i2}(t) = \{y_{i2}(s), 0 \leq s &lt; t\}\)</li>
 </ul></li>
 </ul>
-
-</article></slide><slide class=""><hgroup><h2>The Basic Joint Model (cont’d)</h2></hgroup><article  id="the-basic-joint-model-contd-1">
-
-<p>\[\left \{
-\begin{array}{ccl}
-h_i(t) &amp; = &amp; h_0(t) \exp \{\mathbf \gamma^\top \mathbf w_i + 
-\alpha_1 {\color{red} \eta_{i1}(t)} + \alpha_2 {\color{blue} \eta_{i2}(t)}\}\\&amp;&amp;\\
-y_{i1}(t) &amp; = &amp; {\color{red} \eta_{i1}(t)} + \varepsilon_i(t)\\
-&amp; = &amp; \mathbf x_{i1}^\top(t) \mathbf \beta_1 + 
-\mathbf z_{i1}^\top(t) \mathbf b_{i1} + \varepsilon_i(t)\\&amp;&amp;\\
-\log\frac{\Pr\{y_{i2}(t) = 1\}}{1 - \Pr\{y_{i2}(t) = 1\}} &amp; = &amp; {\color{blue} \eta_{i2}(t)}\\
-&amp; = &amp; \mathbf x_{i2}^\top(t) \mathbf \beta_2 + 
-\mathbf z_{i2}^\top(t) \mathbf b_{i2}\\&amp;&amp;\\
-\mathbf \{b_{i1}, b_{i2}\} \sim \mathcal N(\mathbf 0, \mathbf D), &amp; &amp;
-\varepsilon_i(t) \sim \mathcal N(0, \sigma^2)
-\end{array}
-\right.\] <br/><br/></p>
-
-</article></slide><slide class=""><hgroup><h2>Functional Form</h2></hgroup><article  id="functional-form">
-
-<p><br/></p>
-
-<ul>
-<li><p>PSA velocity</p>
-
-<ul>
-<li>fast increasing PSA indicative of progression</li>
-</ul>
-
-<p><br/></p>
-
-<p>\[h_i(t) = h_0(t) \exp \{\mathbf \gamma^\top \mathbf w_i + 
-  \alpha_1 {\color{red} \eta_{i1}(t)} + \alpha_2 {\color{blue} \eta_{i1}&#39;(t)}
-  + \alpha_3 {\color{red} \eta_{i2}(t)}\}\] <br/> where \({\color{blue} \eta_{i1}&#39;(t)} = \frac{d}{dt} \eta_{i1}(t)\)</p></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Functional Form (cont’d)</h2></hgroup><article  id="functional-form-contd">
-
-<p><img src="tdSlope.gif" alt="TD_slopes" style="margin:0px 0px 0px 0px; width:500px;"></p>
-
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Personalizing the Biopsy Schedules</h2></hgroup><article  id="personalizing-the-biopsy-schedules">
 
 </article></slide><slide class=""><hgroup><h2>Risk of Progression</h2></hgroup><article  id="risk-of-progression">
 
@@ -442,7 +398,7 @@ y_{i1}(t) &amp; = &amp; {\color{red} \eta_{i1}(t)} + \varepsilon_i(t)\\
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd">
 
-<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="720" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" width="720" /></p>
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule</h2></hgroup><article  id="personalized-schedule">
 
@@ -466,7 +422,7 @@ s_N = h
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-1">
 
-<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" width="720" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="720" /></p>
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-2">
 
@@ -482,7 +438,7 @@ s_N = h
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-3">
 
-<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" width="720" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" width="720" /></p>
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-4">
 
@@ -529,7 +485,7 @@ s_N = h
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-7">
 
-<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" width="720" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" width="720" /></p>
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-8">
 
@@ -571,7 +527,7 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-11">
 
-<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" width="720" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" width="720" /></p>
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-12">
 
