@@ -118,6 +118,9 @@ over-diagnosis and over-treatment</font>
 # A New Approach: Personalized Scheduling
 
 ## A New Approach 
+
+<br/>
+
 - Scheduling based on individualized risk predictions
     - <span style="color:blue">Progression rate is not only different between patients but also dynamically 
 changes over time for the same patient</span>
