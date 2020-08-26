@@ -1,5 +1,5 @@
 ---
-title: "Personalized Schedules for Prostate Cancer"
+title: "Minimizing the Burden of Invasive Procedures"
 author: "Dimitris Rizopoulos"
 date: "ISCB Virtual Conference<br/> August 26, 2020"
 output:
