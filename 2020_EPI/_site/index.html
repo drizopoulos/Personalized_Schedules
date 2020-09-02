@@ -9,7 +9,6 @@
 
 
 
-  <meta name="date" content="2020-09-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -119,7 +118,7 @@ slide:not(.current) .plotly.html-widget{
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">September 7, 2020</p>
+            <p style="margin-top: 6px; margin-left: -2px;">Seminar Department of Epidemiology<br/>September 7, 2020</p>
           </hgroup>
   </slide>
 
@@ -457,6 +456,10 @@ p(y_{i1}, y_{i2}, T_i^L, T_i^R) &amp; = &amp; \int p(y_{i1} \mid {\color{red} b_
 <li>\(\mathcal Y_{j1}(v)\) &amp; \(\mathcal Y_{j2}(v)\) available PSA &amp; DRE measurements up to current visit</li>
 </ul>
 
+</article></slide><slide class=""><hgroup><h2>Risk of Progression (cont’d)</h2></hgroup><article  id="risk-of-progression-contd">
+
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="720" /></p>
+
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule</h2></hgroup><article  id="personalized-schedule">
 
 <ul>
@@ -479,6 +482,10 @@ s_N = h
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd">
 
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" width="720" /></p>
+
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-1">
+
 <ul>
 <li><font color = "red">Simple decision rule:</font> We do a biopsy at \(s_n\) if <br/><br/> \[\pi(s_n \mid t_n, v) \geq \kappa_n\]</li>
 <li>where
@@ -489,7 +496,11 @@ s_N = h
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-1">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-2">
+
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" width="720" /></p>
+
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-3">
 
 <ul>
 <li>The key question is</li>
@@ -500,7 +511,7 @@ s_N = h
 <div style="text-align:center;width:600px;border:3px solid black">
 <p><br/> <strong><font size="6" color = "red">How do we select \({\color{red} \kappa_n}\)?</font></strong> <br/></p></div>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-2">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-4">
 
 <ul>
 <li>We consider two relevant quantities
@@ -516,7 +527,7 @@ s_N = h
 <div style="text-align:center;width:700px;border:3px solid black">
 <p><br/> <strong><font size="5" color = "red">Ideally, we would like to just do one biopsy at exactly the time point of progression</font></strong> <br/></p></div>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-3">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-5">
 
 <ul>
 <li>For different thresholds \(\kappa_n\) we would obtain different number of biopsies and different delays…</li>
@@ -532,11 +543,11 @@ s_N = h
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-4">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-6">
 
-<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="720" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" width="720" /></p>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-5">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-7">
 
 <ul>
 <li>The times when biopsies are performed \[t_n = \left\{
@@ -553,7 +564,7 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 <li>The expected number of biopsies will be \[\mathcal N_j(\kappa^*) = \sum_{n = 1}^N \mbox{I}\{\pi_j(s_n \mid t_n, v) \geq \kappa^*\} \times \{1 - \pi_j(t_{n-1} \mid t, v)\}\]</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-6">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-8">
 
 <ul>
 <li>For a specific threshold \(\kappa^*\) we can calculate
@@ -566,7 +577,7 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-7">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-9">
 
 <p><br/><br/></p>
 
@@ -574,11 +585,11 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 <li>For different \(\kappa\)’s we construct the two-dimensional space of expected number of biopsies and expected delays</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-8">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-10">
 
-<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" width="720" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" width="720" /></p>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-9">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-11">
 
 <p><br/></p>
 
@@ -590,7 +601,7 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-10">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-12">
 
 <p><br/></p>
 
@@ -603,7 +614,7 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-11">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-13">
 
 <p><br/><br/></p>
 
@@ -611,9 +622,9 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 <li>An illustration…</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-12">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-14">
 
-<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" width="720" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" width="720" /></p>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Peformance of Personalized Schedules</h2></hgroup><article  id="peformance-of-personalized-schedules">
 
@@ -689,7 +700,7 @@ Comparison criteria </span>
 
 </article></slide><slide class=""><hgroup><h2>Simulation - Results</h2></hgroup><article  id="simulation---results">
 
-<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" width="720" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" width="720" /></p>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Discussion</h2></hgroup><article  id="discussion">
 
