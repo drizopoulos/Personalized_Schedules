@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dynamic Prediction Modeling</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Dynamic Prediction Modeling',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                        favIcon: 'index_files/logo.png',
+              },
+
+      // Author information
+      presenters: [
+            {
+        name:  'Dimitris Rizopoulos' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <link href="site_libs/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="site_libs/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="site_libs/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="site_libs/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/slide-deck.js"></script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    summary {
+      display: list-item;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+/* https://github.com/ropensci/plotly/pull/524#issuecomment-468142578 */
+slide:not(.current) .plotly.html-widget{
+  display: block;
+}
+
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+            
+    slides > slide:not(.nobackground):before {
+      font-size: 12pt;
+      content: "";
+      position: absolute;
+      bottom: 20px;
+      left: 60px;
+      background: url(index_files/logo.png) no-repeat 0 50%;
+      -webkit-background-size: 30px 30px;
+      -moz-background-size: 30px 30px;
+      -o-background-size: 30px 30px;
+      background-size: 30px 30px;
+      padding-left: 40px;
+      height: 30px;
+      line-height: 1.9;
+    }
+  </style>
+
+  <link rel="stylesheet" href="pres.css" type="text/css" />
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <aside class="gdbar"><img src="index_files/logo.png"></aside>
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">NWA matchmaking symposium<br/> November 6, 2020</p>
+          </hgroup>
+  </slide>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ TeX: { extensions: ["color.js"] }});
+</script>
+
+<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Background &amp; Motivation</h2></hgroup><article  id="background-motivation">
+
+</article></slide><slide class=""><hgroup><h2>Personalized/Precision Medicine</h2></hgroup><article  id="personalizedprecision-medicine">
+
+<ul>
+<li>Personalized medicine has been around for many years</li>
+</ul>
+
+<p><br/></p>
+
+<ul>
+<li>It aims to tailor therapy with the best response to ensure better patient care</li>
+</ul>
+
+<p><br/></p>
+
+<ul>
+<li>Nowadays we collect more information than ever before
+
+<ul>
+<li>we can deliver Personalized Medicine by clever modeling of the data</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Prostate Cancer (PCa)</h2></hgroup><article  id="prostate-cancer-pca">
+
+<ul>
+<li>PCa is the 2nd most frequently diagnosed cancer in males worldwide</li>
+</ul>
+
+<p><br/></p>
+
+<ul>
+<li>Many countries run population screening programs using PSA blood tests
+
+<ul>
+<li>to identify men who have developed the disease</li>
+<li>or men who have high risk of developing it</li>
+</ul></li>
+</ul>
+
+<p><br/></p>
+
+<ul>
+<li><font color = "red">However, these programs have resulted to high rates of over-diagnosis and over-treatment</font>
+
+<ul>
+<li>standard treatments have serious side-effects</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>PCa Active Surveillance</h2></hgroup><article  id="pca-active-surveillance">
+
+<p><br/> <br/></p>
+
+<ul>
+<li>To avoid over-treatment, men with low grade prostate cancer are advised active surveillance</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>PCa Active Surveillance (cont’d)</h2></hgroup><article  id="pca-active-surveillance-contd">
+
+<ul>
+<li>Treatment is advised when cancer progression is observed
+
+<ul>
+<li>typically via biopsies when Gleason Score \(\geq 7\)</li>
+</ul></li>
+</ul>
+
+<p><br/></p>
+
+<div style="text-align:center;width:50%;border:3px solid black" align="right">
+<p><br/><br/> <strong><font size="6" color = "red">Frequency of Biopsies</font></strong> <br/><br/></p></div>
+
+</article></slide><slide class=""><hgroup><h2>PCa Active Surveillance (cont’d)</h2></hgroup><article  id="pca-active-surveillance-contd-1">
+
+<p><br/></p>
+
+<ul>
+<li>Two dimensions
+
+<ul>
+<li><strong><font color = "red">Number of biopsies</font></strong></li>
+<li><strong><font color = "red">Delay</font></strong> in finding progression</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Biopsies Schedules</h2></hgroup><article  id="biopsies-schedules">
+
+<p><br></p>
+
+<ul>
+<li>Annual Biopsies
+
+<ul>
+<li>focus on minimizing delay</li>
+<li>many <span style="color:red">
+unnecessary</span> biopsies for patients who progress slow</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Biopsies Schedules (cont’d)</h2></hgroup><article  id="biopsies-schedules-contd">
+
+<p><br/></p>
+
+<ul>
+<li>Less Frequent Biopsies - PRIAS
+
+<ul>
+<li>every 3 years</li>
+<li>still <span style="color:red">
+unnecessary</span> biopsies for patients who progress slow</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Biopsies Schedules (cont’d)</h2></hgroup><article  id="biopsies-schedules-contd-1">
+
+<ul>
+<li><span style="color:red">
+unnecessary</span> biopsies \(\Rightarrow\) Low compliance
+
+<ul>
+<li>effectiveness of AS is compromised</li>
+</ul></li>
+</ul>
+
+<p><br/></p>
+
+<div style="float:center;text-align:center;width:80%;border:3px solid black">
+<p><br/><br/> <strong><font size="6" color = "red">Considerable room to improve biopsy scheduling</font></strong> <br/><br/></p></div>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>A New Approach: Personalized Scheduling</h2></hgroup><article  id="a-new-approach-personalized-scheduling">
+
+</article></slide><slide class=""><hgroup><h2>Personalized Dynamic Modeling</h2></hgroup><article  id="personalized-dynamic-modeling">
+
+<p><br/></p>
+
+<ul>
+<li>Scheduling based on individualized risk predictions
+
+<ul>
+<li><span style="color:blue">
+Progression rate is not only different between patients but also dynamically changes over time for the same patient</span></li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Personalized Dynamic Modeling (cont’d)</h2></hgroup><article  id="personalized-dynamic-modeling-contd">
+
+<p><img src="index_files/figure-html/unnamed-chunk-1-1.png" width="720" /></p>
+
+</article></slide><slide class=""><hgroup><h2>Personalized Dynamic Modeling (cont’d)</h2></hgroup><article  id="personalized-dynamic-modeling-contd-1">
+
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" width="720" /></p>
+
+</article></slide><slide class=""><hgroup><h2>Joint Models</h2></hgroup><article  id="joint-models">
+
+<p><img src="JM.gif" alt="DynPreds" style="margin:0px 0px 0px 0px; width:500px;"></p>
+
+</article></slide><slide class=""><hgroup><h2>Personalizing the Biopsy Schedules</h2></hgroup><article  id="personalizing-the-biopsy-schedules">
+
+<p><br/></p>
+
+<ul>
+<li>Online web app available at <a href='https://emcbiostatistics.shinyapps.io/prias_biopsy_recommender/' title=''>https://emcbiostatistics.shinyapps.io/prias_biopsy_recommender/</a></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article >
+
+<p><br/> <br/></p>
+
+<div align="center">
+<p><font color = "black" size = "6"><strong>Thank you for your attention!</strong></font></p></div>
+
+<br/>
+
+<div align="center">
+<p><a href='http://www.drizopoulos.com/' title=''>http://www.drizopoulos.com/</a></p></div>
+
+<p><br/> <br/> <br/></p>
+
+<div align="center">
+<p><font color = "black" size = "5"><strong>These slides are available at:</strong></font></p></div>
+
+<div align = "center">
+
+<div align="center">
+<p><a href='https://drizopoulos.github.io/Personalized_Schedules/' title=''>https://drizopoulos.github.io/Personalized_Schedules/</a></p></div></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>
