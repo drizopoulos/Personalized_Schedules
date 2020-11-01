@@ -29,40 +29,19 @@ load("./workspaces/data_example.RData")
 
 ## Personalized/Precision Medicine
 
-- Personalized medicine has been around for many years
-
 <br/>
 
-- It aims to tailor therapy with the best response to ensure better patient care
-  
-<br/>
+1. What is dynamic prediction modeling?
 
-- Nowadays we collect more information than ever before
-  + we can deliver Personalized Medicine by clever modeling of the data
+2. At which stages of mental health care will be dynamic prediction modeling useful?
 
-## Prostate Cancer (PCa)
+3. What is needed to build a successful dynamic prediction model?
 
-- PCa is the 2nd most frequently diagnosed cancer in males worldwide
-    
-<br/>
-
-- Many countries run population screening programs using PSA blood tests
-    + to identify men who have developed the disease
-    + or men who have high risk of developing it
-    
-<br/>
-
-- <font color = "red">However, these programs have resulted to high rates of 
-over-diagnosis and over-treatment</font>
-    + standard treatments have serious side-effects
-
-## PCa Active Surveillance
-
-<br/> <br/>
+## An Example: Prostate Cancer
 
 - To avoid over-treatment, men with low grade prostate cancer are advised active surveillance
 
-## PCa Active Surveillance (cont'd)
+<br/>
 
 - Treatment is advised when cancer progression is observed
     - typically via biopsies when Gleason Score $\geq 7$
@@ -75,15 +54,7 @@ over-diagnosis and over-treatment</font>
 <br/><br/>
 </div>
 
-## PCa Active Surveillance (cont'd)
-
-<br/>
-
-- Two dimensions
-  + <strong><font color = "red">Number of biopsies</font></strong>
-  + <strong><font color = "red">Delay</font></strong> in finding progression
-  
-## Biopsies Schedules
+## Current Standards
 
 <br>
 
@@ -91,15 +62,13 @@ over-diagnosis and over-treatment</font>
   + focus on minimizing delay
   + many <span style="color:red">unnecessary</span> biopsies for patients who progress slow
 
-## Biopsies Schedules (cont'd)
-
 <br/>
 
-- Less Frequent Biopsies - PRIAS
+- Less Frequent Biopsies
   + every 3 years
   + still <span style="color:red">unnecessary</span> biopsies for patients who progress slow
 
-## Biopsies Schedules (cont'd)
+## Current Standards (cont'd)
 
 - <span style="color:red">unnecessary</span> biopsies $\Rightarrow$ Low compliance
   + effectiveness of AS is compromised
@@ -148,8 +117,7 @@ print(xyplot(log2psa ~ visitTimeYears | id,
              as.table = TRUE, xlab = "Time (years)", ylab = "log2 PSA"))
 ```
 
-
-## Joint Models
+## Dynamic Models
 
 ```{r, echo = FALSE, results = 'hide', message=FALSE}
 saveGIF({
@@ -167,7 +135,6 @@ saveGIF({
 ```
 
 <img src="JM.gif" alt="DynPreds" style="margin:0px 0px 0px 0px; width:500px;"> 
-
 
 ## Personalizing the Biopsy Schedules
 
