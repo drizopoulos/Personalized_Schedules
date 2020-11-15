@@ -1,7 +1,7 @@
 ---
-title: "Minimizing the Burden of Invasive Procedures"
+title: "Optimal Scheduling of Invasive Procedures"
 author: "Dimitris Rizopoulos"
-date: "Advanced Analytics symposium<br/>November 19, 2020"
+date: "Advanced Analytics Symposium<br/>November 19, 2020"
 output:
   ioslides_presentation:
     css: pres.css
@@ -118,9 +118,6 @@ over-diagnosis and over-treatment</font>
 # A New Approach: Personalized Scheduling
 
 ## A New Approach 
-- Scheduling based on individualized risk predictions
-    - <span style="color:blue">Progression rate is not only different between patients but also dynamically 
-changes over time for the same patient</span>
 
 <br/>
 
@@ -174,33 +171,7 @@ print(xyplot(log2psa ~ visitTimeYears | id,
 
 # Modeling Framework
 
-## Time-varying Covariates
-
-- To answer these questions we need to link
-    + the time to Gleason reclassification (survival outcome)
-    + the PSA measurements (longitudinal continuous outcome)
-    + the DRE measurements (longitudinal binary outcome)
-
-<br/>
-    
-- Biomarkers are <font color="red">*endogenous*</font> time-varying covariates
-    + their future path depends on previous events
-    + standard time-varying Cox model not appropriate
-
-## Time-varying Covariates (cont'd)
-
-<br/><br/>
-<div class="blue">**To account for endogeneity we use the framework of**</div>
-
-<br/>
-
-<div style="text-align:center;width:800px;border:3px solid black">
-<br/>
-<strong><font size="6" color = "red">Joint Models for Longitudinal & Survival Data</font></strong>
-<br/>
-</div>
-
-## The Basic Joint Model
+## Dynamic Models
 
 ```{r, echo = FALSE, results = 'hide', message=FALSE}
 saveGIF({
@@ -219,20 +190,7 @@ saveGIF({
 
 <img src="JM.gif" alt="DynPreds" style="margin:0px 0px 0px 0px; width:500px;"> 
 
-## The Basic Joint Model (cont'd)
-
-- We need some notation
-    + $T_i^*$ the true reclassification time
-    + $T_i^L$ last biopsy time point Gleason Score was $< 7$
-    + $T_i^R$ first biopsy time point Gleason Score was $\geq 7$
-    + $T_i^R = \infty$ for patients who haven't been reclassified yet
-    + $\mathbf y_{i1}$ vector of longitudinal PSA measurements
-    + $\mathcal Y_{i1}(t) = \{y_{i1}(s), 0 \leq s < t\}$
-    + $\mathbf y_{i2}$ vector of longitudinal DRE measurements
-    + $\mathcal Y_{i2}(t) = \{y_{i2}(s), 0 \leq s < t\}$
-    
-
-## The Basic Joint Model (cont'd)
+## Dynamic Models (cont'd)
 
 $$\left \{
 \begin{array}{ccl}
@@ -250,35 +208,8 @@ y_{i1}(t) & = & {\color{red} \eta_{i1}(t)} + \varepsilon_i(t)\\
 \right.$$
 <br/><br/>
 
-## The Basic Joint Model (cont'd)
-
-<br/>
-
-- The longitudinal and survival outcomes are jointly modeled
-$$\begin{eqnarray}
-p(y_{i1}, y_{i2}, T_i^L, T_i^R) & = & \int p(y_{i1} \mid {\color{red} b_{i1}}) \; p(y_{i2} \mid {\color{red} b_{i2}}) \times \\
-&& \quad \quad  
-\left\{S(T_i^L \mid {\color{red} b_i}) - S(T_i^R \mid {\color{red} b_i})\right\} p({\color{red} b_i}) \; d{\color{red} b_i}\\
-\end{eqnarray}$$
-<br/>
-    + the random effects ${\color{red} b_i}$ explain the interdependencies
 
 ## Functional Form
-
-<br/>
-
-- PSA velocity
-    + fast increasing PSA indicative of progression
-    
-    <br/>
-    
-    $$h_i(t) = h_0(t) \exp \{\mathbf \gamma^\top \mathbf w_i + 
-    \alpha_1 {\color{red} \eta_{i1}(t)} + \alpha_2 {\color{blue} \eta_{i1}'(t)}
-    + \alpha_3 {\color{red} \eta_{i2}(t)}\}$$
-    <br/>
-    where ${\color{blue} \eta_{i1}'(t)} = \frac{d}{dt} \eta_{i1}(t)$
-    
-## Functional Form (cont'd)
 
 ```{r, echo = FALSE, results = 'hide', message=FALSE}
 saveGIF({
@@ -550,17 +481,10 @@ print(schedule_plot)
 
 ## Personalized Schedule
 
-- Patients come back every 6 months for PSA & DRE measurements
-  + at these occasions we want to decide for a biopsy
-  
 <br/>
 
-- In general, we consider decisions at fixed schedule
-$$\begin{array}{l}
-s_1, \ldots, s_N\\
-s_1 = u\\
-s_N = h
-\end{array}$$
+- Patients come back every 6 months for PSA & DRE measurements
+  + at these occasions we want to decide for a biopsy
 
 ## Personalized Schedule (cont'd)
 
@@ -1310,310 +1234,19 @@ kappa_choice = ggplot() +
 print(kappa_choice)
 ```
 
-
-
-## Personalized Schedule (cont'd)
-
-<br/>
-
-- If we consider that the delay & the number of biopsies are equally important
-  + we can select the $\kappa_n$ that is closest to the optimal schedule
-$${\color{red} \kappa_n^{opt}} = \mbox{argmin}_{\kappa} \sqrt{ \bigl \{ \mathcal N_j(\kappa) - 1 \bigr \}^2 + \mathcal D_j(\kappa)^2}$$
-
-## Personalized Schedule (cont'd)
-
-<br/>
-
-- Othrewise, 
-  + we may also select a clinically acceptable delay, and 
-  + select ${\color{red} \kappa_n^{opt}}$ the $\kappa$ that minimizes the expected number 
-  of biopsies
-
 ## Personalized Schedule (cont'd)
 
 <br/><br/>
 
 - An illustration...
 
-## Personalized Schedule (cont'd)
-
-```{r, echo = FALSE, warning = FALSE}
-load("./workspaces/Figure5.RData")
-
-SUCCESS_COLOR = 'forestgreen'
-DANGER_COLOR = 'red'
-WARNING_COLOR = 'darkorange'
-THEME_COLOR = 'dodgerblue4'
-MAX_FOLLOW_UP = 10
-POINT_SIZE = 1.6
-FONT_SIZE = 8
-LABEL_SIZE = 0.95
-
-riskAxisLabels = c("0%", "25%", "50%", "75%", "100%")
-
-baseggplot = ggplot() + 
-  theme_bw() + 
-  theme(plot.margin = margin(0,0,0,0, "mm"), 
-        axis.text = element_text(size=FONT_SIZE),
-        axis.title = element_text(size=FONT_SIZE),
-        plot.title = element_text(size=FONT_SIZE),
-        axis.text.y.left = element_text(size=FONT_SIZE, color=THEME_COLOR),
-        axis.title.y.left = element_text(size=FONT_SIZE, color=THEME_COLOR),
-        legend.position = "bottom",
-        legend.title = element_blank(),
-        legend.text = element_text(size=FONT_SIZE-2))
-
-baseggplot_no_xticks = baseggplot + 
-  theme(axis.ticks.x = element_blank(),
-        axis.title.x = element_blank(),
-        axis.text.x = element_blank())
-
-risk_plot = baseggplot_no_xticks +
-  geom_line(aes(x=surv_prob_times, y=scaled_mean_risk_probs), color=DANGER_COLOR) +
-  geom_line(aes(x=surv_prob_times, y=scaled_mean_risk_probs), color=DANGER_COLOR) +
-  geom_ribbon(aes(x=surv_prob_times, ymin=scaled_lower_risk_probs,
-                  ymax=scaled_upper_risk_probs), alpha=0.15, fill=DANGER_COLOR) + 
-  geom_segment(aes(x=-Inf, xend=current_visit_time, 
-                   y=maxYleft/2, yend=maxYleft/2), linetype="solid") +
-  geom_vline(xintercept = last_biopsy_time, color=SUCCESS_COLOR) + 
-  geom_vline(xintercept = current_visit_time, color='black', linetype='dashed') + 
-  geom_point(data = psaDs, size=POINT_SIZE, color=THEME_COLOR,
-             aes(x = year_visit, y=log2psaplus1, shape="Observed PSA")) +
-  geom_line(data = psaDs,  color=THEME_COLOR,
-            aes(x = year_visit, y=truePSA, linetype="Fitted PSA")) +
-  geom_point(data = dreDs, size=POINT_SIZE, color=THEME_COLOR,
-             aes(x = year_visit, y=palpable_dre, shape="Observed DRE")) +
-  geom_line(data = dreDs, color=THEME_COLOR,
-            aes(x = year_visit, y=trueProbPalpableDRE, linetype="Fitted DRE")) +
-  scale_shape_manual(name="",
-                     labels = c(expression(atop('Observed', 'DRE')), expression(atop('Observed', 'log'[2]*'(PSA + 1)'))),
-                     values = c(17, 16)) +
-  scale_linetype_manual(name="",
-                        labels= c(expression(atop('Fitted', 'Pr (DRE)')), expression(atop('Fitted', 'log'[2]*'(PSA + 1)'))),
-                        values = c("dotted", "dashed")) +
-  ylab('Pr(DRE)     log2(PSA + 1)') +
-  #ylab('DRE              PSA') +
-  xlab("Follow-up time (years)") + 
-  xlim(min_x,MAX_FOLLOW_UP) +
-  theme(axis.text.y.right = element_text(size=FONT_SIZE, color=DANGER_COLOR),
-        axis.title.y.right = element_text(size=FONT_SIZE, color=DANGER_COLOR)) +
-  scale_y_continuous(limits = c(minYLeft, maxYleft),
-                     breaks = c(drebreaks, psabreaks),
-                     labels = c(drelabels, psalabels),
-                     sec.axis = sec_axis(trans=~., 
-                                         breaks= riskAxisBreaks,
-                                         labels = riskAxisLabels,
-                                         name = "CumRisk of progression")) 
-
-planned_schedule_plot = baseggplot +
-  geom_vline(xintercept = last_biopsy_time, color=SUCCESS_COLOR) + 
-  geom_vline(xintercept = current_visit_time, color='black', linetype='dashed') + 
-  geom_segment(aes(x=rep(current_visit_time,4), xend=rep(MAX_FOLLOW_UP,4), y=1:4, yend=1:4), color=SUCCESS_COLOR, linetype='dotted')+
-  geom_label(data=schedule_df, label.padding = unit(0.1, "lines"),
-             aes(x=times, y=number, label="B", group=name), 
-             color=SUCCESS_COLOR, fill='white')+
-  xlab("Follow-up time (years)") + 
-  ylab('Planned tests') +
-  scale_x_continuous(breaks=0:MAX_FOLLOW_UP,
-                     limits = c(min_x, MAX_FOLLOW_UP)) +
-  scale_y_continuous(limits = c(1 - 0.25, 4 + 0.25),
-                     breaks = 1:4,
-                     labels = schedule_df$name[!duplicated(schedule_df$name)],
-                     sec.axis = dup_axis()) +
-  theme(axis.title.x = element_blank(),
-        axis.ticks.y.left = element_blank(),
-        axis.title.y.left = element_blank(),
-        axis.text.y.left = element_blank(),
-        axis.text.y.right = element_text(size=FONT_SIZE),
-        axis.title.y.right = element_text(size=FONT_SIZE))
-
-##############
-label_plot = ggplot() + 
-  geom_vline(xintercept = c(0,last_biopsy_time,current_visit_time),
-             color=c(WARNING_COLOR, SUCCESS_COLOR, "black"),
-             linetype=c("solid", "solid", "dashed")) +
-  geom_label(aes(x=c(0,last_biopsy_time,current_visit_time), 
-                 y=c(0,0,0), 
-                 label = c("Start\nsurveillance", 
-                           "Last\nbiopsy",
-                           "Current\nvisit")), color='white',
-             size= LABEL_SIZE + 1.1,
-             fill=c(WARNING_COLOR, SUCCESS_COLOR, 'black')) +
-  theme_bw() +
-  theme(text = element_text(size = FONT_SIZE),
-        panel.background = element_blank(),
-        axis.text = element_blank(),
-        axis.title.y = element_blank(),
-        axis.ticks = element_blank(),
-        panel.border = element_blank(),
-        panel.grid = element_blank(),
-        plot.margin = margin(0,0,0,0, unit = "pt")) + 
-  xlab("Follow-up time (years)") + ylim(-0.1,0.1) + 
-  xlim(min_x,MAX_FOLLOW_UP)
-
-#########################
-max_tests_possible = length(annual_schedule$planned_test_schedule)
-num_test_plot = ggplot() + geom_col(aes(x=rep(consequences_df$name,2), 
-                                        y=c(consequences_df$expected_num_tests, max_tests_possible - consequences_df$expected_num_tests)),
-                                    color='black', fill=c(rep(c('darkgrey','white'), nrow(consequences_df))),
-                                    width=0.5)+
-  ylab("Expected number of tests") + 
-  xlab("Schedule") + scale_y_continuous(breaks = seq(0, max_tests_possible, by=2),
-                                        labels = seq(0, max_tests_possible, by=2),
-                                        limits = c(0, max_tests_possible)) + 
-  coord_flip() + theme_bw()+
-  theme(text = element_text(size = FONT_SIZE))
-
-delay_plot = ggplot() + geom_col(aes(x=rep(consequences_df$name,2), 
-                                     y=c(consequences_df$expected_detection_delay, 
-                                         12 - consequences_df$expected_detection_delay)),
-                                 color='black', fill=c(rep(c('darkgrey','white'), nrow(consequences_df))),
-                                 width=0.5)+
-  ylab("Expected time delay (months)\nin detecting progression") + 
-  xlab("Schedule") +
-  scale_y_continuous(breaks = seq(0, 12, length.out = 5),
-                     labels = seq(0, 12, length.out = 5),
-                     limits= c(0, 12))+
-  coord_flip() +
-  theme_bw() + 
-  theme(text = element_text(size = FONT_SIZE),
-        axis.title.y = element_blank(),
-        axis.text.y = element_blank())
-
-
-consequences_plot = ggpubr::ggarrange(num_test_plot, delay_plot, 
-                                      ncol=2, nrow=1, align = "h",
-                                      labels = c("", ""),
-                                      widths = c(1, 0.8))
-
-upper_plot = ggpubr::ggarrange(risk_plot, planned_schedule_plot, 
-                               label_plot,
-                               ncol=1, align = "v",
-                               hjust = -1.5,
-                               heights = c(1,0.8,0.3),
-                               labels = c('', '', ''), 
-                               legend = "none")
-
-demo_schedule = ggpubr::ggarrange(upper_plot, consequences_plot,
-                                  ncol=1, align = "v",
-                                  hjust = -1.5,
-                                  heights = c(1,0.45),
-                                  legend = "none")
-print(demo_schedule)
-```
-
-
-# Peformance of Personalized Schedules
-
-## Simulation - Desing
-
-- <span style="color:green">Simulation study</span>:
-    - The same characteristics as in PRIAS
-    - 500 datasets x (750 training + 250 test) patients
-
-## Simulation - Desing (cont'd)
-- For illustration purposes, we define:
-    - <span style="color:black">Slow progression</span>: patients who never progress (50%)
-    - Remaining 50%:
-        - <span style="color:black">Fast progression</span>: 30% progression in 0 to 3.5 years
-        - <span style="color:black">Intermediate progression</span>: 20% progression in 3.5 to 10 years
-
-## Simulation - Desing (cont'd)
-- <span style="color:red">Fixed</span>:
-    - PRIAS (biopsy every 3 years, and if PSA goes up too fast then annual biopsy)
-    - Annual (annual biopsies)
-
-<br/>
-
-- <span style="color:green">Personalized (risk based)</span>:
-    - 5% risk threshold
-    - 10% risk threshold
-    - time-varying threshold minimizing expected delay & number of biopsies
-
-## Simulation - Desing (cont'd)
-
-<br/>
-<br/>
-
-- <span style="color:black">Comparison criteria </span>
-    - Number of biopsies until cancer progression
-    - Delay in detection of cancer progression
-
-## Simulation - Results
-
-```{r, echo = FALSE, warning = FALSE, results = "hide"}
-load("./workspaces/Figure6.RData")
-
-#number of biopsies summary for progressors
-by(INDICES = biopsyDf_summary$schedule[biopsyDf_summary$progressed==0],
-   data= biopsyDf_summary$nb[biopsyDf_summary$progressed==0], summary)
-
-#delay summary for progressors
-by(INDICES = biopsyDf_summary$schedule[biopsyDf_summary$progressed==1],
-   data= biopsyDf_summary$nb[biopsyDf_summary$progressed==1], summary)
-
-#number of biopsies summary for non-progressors
-by(INDICES = biopsyDf_summary$schedule[biopsyDf_summary$progressed==1],
-   data= biopsyDf_summary$delay[biopsyDf_summary$progressed==1], summary)
-
-
-#rest are plots
-a = ggplot(biopsyDf_summary[biopsyDf_summary$progressed==1,]) +
-  geom_boxplot(aes(x=schedule, y=nb), outlier.shape = NA) +
-  theme_bw() + 
-  scale_y_continuous(breaks = c(1,4,7,10), limits = c(1,10)) +
-  theme(text=element_text(size=FONT_SIZE),
-        title = element_text(size=FONT_SIZE-1)) +
-  xlab("Schedule") + ylab("Number of biopsies") +
-  coord_flip() +
-  ggtitle("Progressing patients (50%)")
-
-b = ggplot(biopsyDf_summary[biopsyDf_summary$progressed==1,]) +
-  geom_boxplot(aes(x=schedule, y=delay), outlier.shape = NA)+
-  theme_bw() + 
-  scale_y_continuous(breaks = 0:4, limits = c(0,4)) +
-  theme(axis.text.y = element_blank(), axis.title.y = element_blank(),
-        text=element_text(size=FONT_SIZE)) +
-  xlab("Schedule") + ylab("Time delay in detection\nof progression (years)")+
-  coord_flip()
-
-c = ggplot(biopsyDf_summary[biopsyDf_summary$progressed==0,]) +
-  geom_boxplot(aes(x=schedule, y=nb), outlier.shape = NA) +
-  theme_bw() +
-  scale_y_continuous(breaks = c(1,4,7,10), limits = c(1,10)) +
-  theme(text=element_text(size=FONT_SIZE),
-        title = element_text(size=FONT_SIZE-1)) +
-  xlab("Schedule") + ylab("Number of biopsies") +
-  coord_flip() +
-  ggtitle("Non-progressing patients (50%)")
-
-d = ggplot() +
-  geom_boxplot(data=biopsyDf_summary[biopsyDf_summary$progressed==0,],
-               aes(x=schedule, y=-1), outlier.shape = NA)+
-  geom_text(aes(x="Risk: 10%", y=2), label="Time delay not available for\nnon-progressing patients")+
-  theme_bw() + 
-  scale_y_continuous(breaks = 0:4, limits = c(0,4)) +
-  theme(axis.text.y = element_blank(), axis.title.y = element_blank(),
-        text=element_text(size=FONT_SIZE)) +
-  xlab("Schedule") + ylab("Time delay in detection\nof progression (years)")+ 
-  coord_flip()
-
-upper_plot = ggarrange(a,b, nrow=1, ncol=2, align = "h", widths = c(1.225,1))
-lower_plot = ggarrange(c,d, nrow=1, ncol=2, align = "h", widths = c(1.225,1))
-
-final_plot = ggpubr::ggarrange(upper_plot, lower_plot, 
-                               nrow=2, ncol=1, align = "v", labels = "AUTO")
-
-print(final_plot)
-```
-
 # Discussion
 
-## Some Considerations
+## Shared Decision Making
 
-- Calibration
-  + calculation of expected delay and number of biopsies require a well-calibrated model
-  
+- We provide doctors a manner to quantify the effects of their choice
+  + decision taking multiple factors into consideration
+
 <br/>
 
 - Schedules become more personalized the better biomarkers distinguish patients
