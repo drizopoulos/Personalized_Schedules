@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Minimizing the Burden of Invasive Procedures</title>
+  <title>Optimal Scheduling of Invasive Procedures</title>
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -19,7 +19,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Minimizing the Burden of Invasive Procedures',
+                title: 'Optimal Scheduling of Invasive Procedures',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -125,7 +125,7 @@ slide:not(.current) .plotly.html-widget{
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">CISNET Annual Meeting<br/>November 16, 2020</p>
+            <p style="margin-top: 6px; margin-left: -2px;">Advanced Analytics Symposium<br/>November 19, 2020</p>
           </hgroup>
   </slide>
 
@@ -134,6 +134,37 @@ slide:not(.current) .plotly.html-widget{
 </script>
 
 <slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Background &amp; Motivation</h2></hgroup><article  id="background-motivation">
+
+</article></slide><slide class=""><hgroup><h2>Prostate Cancer (PCa)</h2></hgroup><article  id="prostate-cancer-pca">
+
+<ul>
+<li>PC is the 2nd most frequently diagnosed cancer in males worldwide
+
+<ul>
+<li>the most frequent in economically developed countries</li>
+</ul></li>
+</ul>
+
+<p><br/></p>
+
+<ul>
+<li>Many countries run population screening programs using PSA blood tests
+
+<ul>
+<li>to identify men who have developed the disease</li>
+<li>or men who have high risk of developing it</li>
+</ul></li>
+</ul>
+
+<p><br/></p>
+
+<ul>
+<li><font color = "red">However, these programs have resulted to high rates of over-diagnosis and over-treatment</font>
+
+<ul>
+<li>standard treatments have serious side-effects</li>
+</ul></li>
+</ul>
 
 </article></slide><slide class=""><hgroup><h2>PCa Active Surveillance</h2></hgroup><article  id="pca-active-surveillance">
 
@@ -185,7 +216,11 @@ Biopsies</span></li>
 <p><br/></p>
 
 <ul>
-<li><strong><font color = "red">Delay</font></strong>: We want to find progression asap</li>
+<li><strong><font color = "red">Delay</font></strong>: We want to find progression asap
+
+<ul>
+<li>typically delay \(\leq 18-24\) months</li>
+</ul></li>
 </ul>
 
 <p><br/></p>
@@ -247,15 +282,6 @@ unnecessary</span> biopsies \(\Rightarrow\) Low compliance
 
 </article></slide><slide class=""><hgroup><h2>A New Approach</h2></hgroup><article  id="a-new-approach">
 
-<ul>
-<li>Scheduling based on individualized risk predictions
-
-<ul>
-<li><span style="color:blue">
-Progression rate is not only different between patients but also dynamically changes over time for the same patient</span></li>
-</ul></li>
-</ul>
-
 <p><br/></p>
 
 <ul>
@@ -300,63 +326,11 @@ Time and results of previous biopsies</span></li>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Modeling Framework</h2></hgroup><article  id="modeling-framework">
 
-</article></slide><slide class=""><hgroup><h2>Time-varying Covariates</h2></hgroup><article  id="time-varying-covariates">
-
-<ul>
-<li>To answer these questions we need to link
-
-<ul>
-<li>the time to Gleason reclassification (survival outcome)</li>
-<li>the PSA measurements (longitudinal continuous outcome)</li>
-<li>the DRE measurements (longitudinal binary outcome)</li>
-</ul></li>
-</ul>
-
-<p><br/></p>
-
-<ul>
-<li>Biomarkers are <font color="red"><em>endogenous</em></font> time-varying covariates
-
-<ul>
-<li>their future path depends on previous events</li>
-<li>standard time-varying Cox model not appropriate</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Time-varying Covariates (cont’d)</h2></hgroup><article  id="time-varying-covariates-contd">
-
-<br/><br/>
-
-<div class="blue">
-<strong>To account for endogeneity we use the framework of</strong></div>
-
-<p><br/></p>
-
-<div style="text-align:center;width:800px;border:3px solid black">
-<p><br/> <strong><font size="6" color = "red">Joint Models for Longitudinal &amp; Survival Data</font></strong> <br/></p></div>
-
-</article></slide><slide class=""><hgroup><h2>The Basic Joint Model</h2></hgroup><article  id="the-basic-joint-model">
+</article></slide><slide class=""><hgroup><h2>Dynamic Models</h2></hgroup><article  id="dynamic-models">
 
 <p><img src="JM.gif" alt="DynPreds" style="margin:0px 0px 0px 0px; width:500px;"></p>
 
-</article></slide><slide class=""><hgroup><h2>The Basic Joint Model (cont’d)</h2></hgroup><article  id="the-basic-joint-model-contd">
-
-<ul>
-<li>We need some notation
-
-<ul>
-<li>\(T_i^*\) the true reclassification time</li>
-<li>\(T_i^L\) last biopsy time point Gleason Score was \(&lt; 7\)</li>
-<li>\(T_i^R\) first biopsy time point Gleason Score was \(\geq 7\)</li>
-<li>\(T_i^R = \infty\) for patients who haven’t been reclassified yet</li>
-<li>\(\mathbf y_{i1}\) vector of longitudinal PSA measurements</li>
-<li>\(\mathcal Y_{i1}(t) = \{y_{i1}(s), 0 \leq s &lt; t\}\)</li>
-<li>\(\mathbf y_{i2}\) vector of longitudinal DRE measurements</li>
-<li>\(\mathcal Y_{i2}(t) = \{y_{i2}(s), 0 \leq s &lt; t\}\)</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>The Basic Joint Model (cont’d)</h2></hgroup><article  id="the-basic-joint-model-contd-1">
+</article></slide><slide class=""><hgroup><h2>Dynamic Models (cont’d)</h2></hgroup><article  id="dynamic-models-contd">
 
 <p>\[\left \{
 \begin{array}{ccl}
@@ -373,41 +347,7 @@ y_{i1}(t) &amp; = &amp; {\color{red} \eta_{i1}(t)} + \varepsilon_i(t)\\
 \end{array}
 \right.\] <br/><br/></p>
 
-</article></slide><slide class=""><hgroup><h2>The Basic Joint Model (cont’d)</h2></hgroup><article  id="the-basic-joint-model-contd-2">
-
-<p><br/></p>
-
-<ul>
-<li>The longitudinal and survival outcomes are jointly modeled \[\begin{eqnarray}
-p(y_{i1}, y_{i2}, T_i^L, T_i^R) &amp; = &amp; \int p(y_{i1} \mid {\color{red} b_{i1}}) \; p(y_{i2} \mid {\color{red} b_{i2}}) \times \\
-&amp;&amp; \quad \quad  
-\left\{S(T_i^L \mid {\color{red} b_i}) - S(T_i^R \mid {\color{red} b_i})\right\} p({\color{red} b_i}) \; d{\color{red} b_i}\\
-\end{eqnarray}\] <br/>
-
-<ul>
-<li>the random effects \({\color{red} b_i}\) explain the interdependencies</li>
-</ul></li>
-</ul>
-
 </article></slide><slide class=""><hgroup><h2>Functional Form</h2></hgroup><article  id="functional-form">
-
-<p><br/></p>
-
-<ul>
-<li><p>PSA velocity</p>
-
-<ul>
-<li>fast increasing PSA indicative of progression</li>
-</ul>
-
-<p><br/></p>
-
-<p>\[h_i(t) = h_0(t) \exp \{\mathbf \gamma^\top \mathbf w_i + 
-  \alpha_1 {\color{red} \eta_{i1}(t)} + \alpha_2 {\color{blue} \eta_{i1}&#39;(t)}
-  + \alpha_3 {\color{red} \eta_{i2}(t)}\}\] <br/> where \({\color{blue} \eta_{i1}&#39;(t)} = \frac{d}{dt} \eta_{i1}(t)\)</p></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Functional Form (cont’d)</h2></hgroup><article  id="functional-form-contd">
 
 <p><img src="tdSlope.gif" alt="TD_slopes" style="margin:0px 0px 0px 0px; width:500px;"></p>
 
@@ -434,22 +374,14 @@ p(y_{i1}, y_{i2}, T_i^L, T_i^R) &amp; = &amp; \int p(y_{i1} \mid {\color{red} b_
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule</h2></hgroup><article  id="personalized-schedule">
 
+<p><br/></p>
+
 <ul>
 <li>Patients come back every 6 months for PSA &amp; DRE measurements
 
 <ul>
 <li>at these occasions we want to decide for a biopsy</li>
 </ul></li>
-</ul>
-
-<p><br/></p>
-
-<ul>
-<li>In general, we consider decisions at fixed schedule \[\begin{array}{l}
-s_1, \ldots, s_N\\
-s_1 = u\\
-s_N = h
-\end{array}\]</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd">
@@ -563,126 +495,21 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-11">
 
-<p><br/></p>
-
-<ul>
-<li>If we consider that the delay &amp; the number of biopsies are equally important
-
-<ul>
-<li>we can select the \(\kappa_n\) that is closest to the optimal schedule \[{\color{red} \kappa_n^{opt}} = \mbox{argmin}_{\kappa} \sqrt{ \bigl \{ \mathcal N_j(\kappa) - 1 \bigr \}^2 + \mathcal D_j(\kappa)^2}\]</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-12">
-
-<p><br/></p>
-
-<ul>
-<li>Othrewise,
-
-<ul>
-<li>we may also select a clinically acceptable delay, and</li>
-<li>select \({\color{red} \kappa_n^{opt}}\) the \(\kappa\) that minimizes the expected number of biopsies</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-13">
-
 <p><br/><br/></p>
 
 <ul>
 <li>An illustration…</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-14">
-
-<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" width="720" /></p>
-
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Peformance of Personalized Schedules</h2></hgroup><article  id="peformance-of-personalized-schedules">
-
-</article></slide><slide class=""><hgroup><h2>Simulation - Desing</h2></hgroup><article  id="simulation---desing">
-
-<ul>
-<li><span style="color:green">
-Simulation study</span>:
-
-<ul>
-<li>The same characteristics as in PRIAS</li>
-<li>500 datasets x (750 training + 250 test) patients</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Simulation - Desing (cont’d)</h2></hgroup><article  id="simulation---desing-contd">
-
-<ul>
-<li>For illustration purposes, we define:
-
-<ul>
-<li><span style="color:black">
-Slow progression</span>: patients who never progress (50%)</li>
-<li>Remaining 50%:
-
-<ul>
-<li><span style="color:black">
-Fast progression</span>: 30% progression in 0 to 3.5 years</li>
-<li><span style="color:black">
-Intermediate progression</span>: 20% progression in 3.5 to 10 years</li>
-</ul></li>
-</ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Simulation - Desing (cont’d)</h2></hgroup><article  id="simulation---desing-contd-1">
-
-<ul>
-<li><span style="color:red">
-Fixed</span>:
-
-<ul>
-<li>PRIAS (biopsy every 3 years, and if PSA goes up too fast then annual biopsy)</li>
-<li>Annual (annual biopsies)</li>
-</ul></li>
-</ul>
-
-<p><br/></p>
-
-<ul>
-<li><span style="color:green">
-Personalized (risk based)</span>:
-
-<ul>
-<li>5% risk threshold</li>
-<li>10% risk threshold</li>
-<li>time-varying threshold minimizing expected delay &amp; number of biopsies</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Simulation - Desing (cont’d)</h2></hgroup><article  id="simulation---desing-contd-2">
-
-<p><br/> <br/></p>
-
-<ul>
-<li><span style="color:black">
-Comparison criteria </span>
-
-<ul>
-<li>Number of biopsies until cancer progression</li>
-<li>Delay in detection of cancer progression</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Simulation - Results</h2></hgroup><article  id="simulation---results">
-
-<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" width="720" /></p>
-
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Discussion</h2></hgroup><article  id="discussion">
 
-</article></slide><slide class=""><hgroup><h2>Some Considerations</h2></hgroup><article  id="some-considerations">
+</article></slide><slide class=""><hgroup><h2>Shared Decision Making</h2></hgroup><article  id="shared-decision-making">
 
 <ul>
-<li>Calibration
+<li>We provide doctors a manner to quantify the effects of their choice
 
 <ul>
-<li>calculation of expected delay and number of biopsies require a well-calibrated model</li>
+<li>decision taking multiple factors into consideration</li>
 </ul></li>
 </ul>
 
