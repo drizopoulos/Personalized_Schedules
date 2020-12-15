@@ -31,7 +31,6 @@ body {
 }
 
 slides > slide:not(.nobackground):before {
-  background: Achtergrond.png;
   width: 250px;
   height: 125px;
   background-size: 200px 100px;
