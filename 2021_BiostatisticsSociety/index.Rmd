@@ -1,7 +1,7 @@
 ---
 title: "Minimizing the Burden of Invasive Procedures"
 author: "Dimitris Rizopoulos"
-date: "Biostatistics Society Online Seminar <br/>January 18, 2022"
+date: "Biostatistics Society Online Seminar <br/>January 18, 2021"
 output:
   ioslides_presentation:
     css: pres.css
