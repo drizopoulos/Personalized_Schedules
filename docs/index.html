@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Minimizing the Burden of Invasive Procedures</title>
+  <title>An Application of Dynamic Predictions from Joint Models</title>
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -19,7 +19,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Minimizing the Burden of Invasive Procedures',
+                title: 'An Application of Dynamic Predictions from Joint Models',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -41,6 +41,7 @@
     };
   </script>
 
+  <script src="site_libs/header-attrs-2.8/header-attrs.js"></script>
   <link href="site_libs/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
   <link href="site_libs/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
   <link href="site_libs/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
@@ -125,7 +126,7 @@ slide:not(.current) .plotly.html-widget{
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">Biostatistics Society Online Seminar <br/>January 18, 2021</p>
+            <p style="margin-top: 6px; margin-left: -2px;">Inserm Workshop 261<br/> May 28, 2021</p>
           </hgroup>
   </slide>
 
@@ -134,6 +135,78 @@ slide:not(.current) .plotly.html-widget{
 </script>
 
 <slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Background &amp; Motivation</h2></hgroup><article  id="background-motivation">
+
+</article></slide><slide class=""><hgroup><h2>Dynamic Predictions</h2></hgroup><article  id="dynamic-predictions">
+
+<ul>
+<li>Biomarkers with strong prognostic capabilities are targets of many clinical studies</li>
+</ul>
+
+<p><br/></p>
+
+<ul>
+<li>Good biomarkers can help in
+
+<ul>
+<li>early disease diagnosis</li>
+<li>identification of novel drug targets</li>
+<li>optimal timing of intervention</li>
+<li>detection of response to therapy</li>
+<li>prognostic monitoring of patients</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Dynamic Predictions (cont’d)</h2></hgroup><article  id="dynamic-predictions-contd">
+
+<ul>
+<li>Most prognostic models are static
+
+<ul>
+<li>use only current information to produce predictions</li>
+</ul></li>
+</ul>
+
+<p><br/></p>
+
+<ul>
+<li><font color = "red">However</font>, we can do better by using serial information
+
+<ul>
+<li>predictions based on all available information</li>
+<li>dynamically update over time with extra measurements</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Prostate Cancer (PCa)</h2></hgroup><article  id="prostate-cancer-pca">
+
+<ul>
+<li>PCa is the 2nd most frequently diagnosed cancer in males worldwide
+
+<ul>
+<li>the most frequent in economically developed countries</li>
+</ul></li>
+</ul>
+
+<p><br/></p>
+
+<ul>
+<li>Many countries run population screening programs using PSA blood tests
+
+<ul>
+<li>to identify men who have developed the disease</li>
+<li>or men who have high risk of developing it</li>
+</ul></li>
+</ul>
+
+<p><br/></p>
+
+<ul>
+<li><font color = "red">However, these programs have resulted to high rates of over-diagnosis and over-treatment</font>
+
+<ul>
+<li>standard treatments have serious side-effects</li>
+</ul></li>
+</ul>
 
 </article></slide><slide class=""><hgroup><h2>PCa Active Surveillance</h2></hgroup><article  id="pca-active-surveillance">
 
@@ -168,7 +241,7 @@ Biopsies</span></li>
 
 <p><br/></p>
 
-<div style="text-align:center;width:50%;border:3px solid black" align="right">
+<div align="right" style="text-align:center;width:50%;border:3px solid black">
 <p><br/><br/> <strong><font size="6" color = "red">Frequency of Biopsies</font></strong> <br/><br/></p></div>
 
 </article></slide><slide class=""><hgroup><h2>PCa Active Surveillance (cont’d)</h2></hgroup><article  id="pca-active-surveillance-contd-1">
@@ -185,7 +258,11 @@ Biopsies</span></li>
 <p><br/></p>
 
 <ul>
-<li><strong><font color = "red">Delay</font></strong>: We want to find progression asap</li>
+<li><strong><font color = "red">Delay</font></strong>: We want to find progression asap
+
+<ul>
+<li>typically delay \(\leq 18-24\) months</li>
+</ul></li>
 </ul>
 
 <p><br/></p>
@@ -198,21 +275,15 @@ Biopsies</span></li>
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Biopsies Schedules</h2></hgroup><article  id="biopsies-schedules">
-
-<p><br></p>
+</article></slide><slide class=""><hgroup><h2>Current Standard</h2></hgroup><article  id="current-standard">
 
 <ul>
 <li>Annual Biopsies
 
 <ul>
 <li>focus on minimizing delay</li>
-<li>many <span style="color:red">
-unnecessary</span> biopsies for patients who progress slow</li>
 </ul></li>
 </ul>
-
-</article></slide><slide class=""><hgroup><h2>Biopsies Schedules (cont’d)</h2></hgroup><article  id="biopsies-schedules-contd">
 
 <p><br/></p>
 
@@ -222,12 +293,10 @@ unnecessary</span> biopsies for patients who progress slow</li>
 <ul>
 <li>every 3 years or</li>
 <li>annually if PSA doubling time &lt; 10 (try to find faster progressions)</li>
-<li>still <span style="color:red">
-unnecessary</span> biopsies for patients who progress slow</li>
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Biopsies Schedules (cont’d)</h2></hgroup><article  id="biopsies-schedules-contd-1">
+</article></slide><slide class=""><hgroup><h2>Biopsies Schedules (cont’d)</h2></hgroup><article  id="biopsies-schedules-contd">
 
 <ul>
 <li><span style="color:red">
@@ -247,27 +316,14 @@ unnecessary</span> biopsies \(\Rightarrow\) Low compliance
 
 </article></slide><slide class=""><hgroup><h2>A New Approach</h2></hgroup><article  id="a-new-approach">
 
+<p><br/></p>
+
 <ul>
 <li>Scheduling based on individualized risk predictions
 
 <ul>
 <li><span style="color:blue">
 Progression rate is not only different between patients but also dynamically changes over time for the same patient</span></li>
-</ul></li>
-</ul>
-
-<p><br/></p>
-
-<ul>
-<li>Risk predictions based upon
-
-<ul>
-<li><span style="color:red">
-All available</span> PSA (ng/mL) measurements</li>
-<li><span style="color:red">
-All available</span> DRE (T1c / above T1c) measurements</li>
-<li><span style="color:green">
-Time and results of previous biopsies</span></li>
 </ul></li>
 </ul>
 
@@ -335,11 +391,7 @@ Time and results of previous biopsies</span></li>
 <div style="text-align:center;width:800px;border:3px solid black">
 <p><br/> <strong><font size="6" color = "red">Joint Models for Longitudinal &amp; Survival Data</font></strong> <br/></p></div>
 
-</article></slide><slide class=""><hgroup><h2>The Basic Joint Model</h2></hgroup><article  id="the-basic-joint-model">
-
-<p><img src="JM.gif" alt="DynPreds" style="margin:0px 0px 0px 0px; width:500px;"></p>
-
-</article></slide><slide class=""><hgroup><h2>The Basic Joint Model (cont’d)</h2></hgroup><article  id="the-basic-joint-model-contd">
+</article></slide><slide class=""><hgroup><h2>Joint Models</h2></hgroup><article  id="joint-models">
 
 <ul>
 <li>We need some notation
@@ -356,7 +408,7 @@ Time and results of previous biopsies</span></li>
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>The Basic Joint Model (cont’d)</h2></hgroup><article  id="the-basic-joint-model-contd-1">
+</article></slide><slide class=""><hgroup><h2>Joint Models (cont’d)</h2></hgroup><article  id="joint-models-contd">
 
 <p>\[\left \{
 \begin{array}{ccl}
@@ -371,45 +423,56 @@ y_{i1}(t) &amp; = &amp; {\color{red} \eta_{i1}(t)} + \varepsilon_i(t)\\
 \mathbf \{b_{i1}, b_{i2}\} \sim \mathcal N(\mathbf 0, \mathbf D), &amp; &amp;
 \varepsilon_i(t) \sim \mathcal N(0, \sigma^2)
 \end{array}
-\right.\] <br/><br/></p>
+\right.\]</p>
 
-</article></slide><slide class=""><hgroup><h2>The Basic Joint Model (cont’d)</h2></hgroup><article  id="the-basic-joint-model-contd-2">
+</article></slide><slide class=""><hgroup><h2>Joint Models (cont’d)</h2></hgroup><article  id="joint-models-contd-1">
 
 <p><br/></p>
 
 <ul>
-<li>The longitudinal and survival outcomes are jointly modeled \[\begin{eqnarray}
+<li>The longitudinal and survival outcomes are jointly modeled</li>
+</ul>
+
+<p><br/></p>
+
+<p>\[\begin{eqnarray}
 p(y_{i1}, y_{i2}, T_i^L, T_i^R) &amp; = &amp; \int p(y_{i1} \mid {\color{red} b_{i1}}) \; p(y_{i2} \mid {\color{red} b_{i2}}) \times \\
 &amp;&amp; \quad \quad  
 \left\{S(T_i^L \mid {\color{red} b_i}) - S(T_i^R \mid {\color{red} b_i})\right\} p({\color{red} b_i}) \; d{\color{red} b_i}\\
-\end{eqnarray}\] <br/>
+\end{eqnarray}\]</p>
+
+</article></slide><slide class=""><hgroup><h2>Joint Models (cont’d)</h2></hgroup><article  id="joint-models-contd-2">
 
 <ul>
-<li>the random effects \({\color{red} b_i}\) explain the interdependencies</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Functional Form</h2></hgroup><article  id="functional-form">
-
-<p><br/></p>
-
-<ul>
-<li><p>PSA velocity</p>
-
-<ul>
-<li>fast increasing PSA indicative of progression</li>
+<li>Based on joint models we can derive the dynamic probabilities</li>
 </ul>
 
 <p><br/></p>
 
-<p>\[h_i(t) = h_0(t) \exp \{\mathbf \gamma^\top \mathbf w_i + 
-  \alpha_1 {\color{red} \eta_{i1}(t)} + \alpha_2 {\color{blue} \eta_{i1}&#39;(t)}
-  + \alpha_3 {\color{red} \eta_{i2}(t)}\}\] <br/> where \({\color{blue} \eta_{i1}&#39;(t)} = \frac{d}{dt} \eta_{i1}(t)\)</p></li>
+<p>\[\begin{array}{l}
+\pi_j(u \mid t) = \mbox{Pr}\{T_j^* \leq u \mid T_j^* &gt; t, \mathcal Y_j(t), \mathcal D_n\}\\\\
+= \displaystyle 1 - \int\int \frac{S\{u \mid \mathcal H_j(u, b_j), 
+\theta\}}{S\{t \mid \mathcal H_j(t, b_j), \theta\}} \; p\{b_j \mid T_j^* &gt; t, \mathcal Y_j(t), 
+\theta\} \; p(\theta \mid \mathcal D_n) \; db_j d\theta,
+\end{array}\]</p>
+
+</article></slide><slide class=""><hgroup><h2>Joint Models (cont’d)</h2></hgroup><article  id="joint-models-contd-3">
+
+<ul>
+<li>Combining the three terms in the integrand we can device a Monte Carlo scheme</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Functional Form (cont’d)</h2></hgroup><article  id="functional-form-contd">
+<p><br/></p>
 
-<p><img src="tdSlope.gif" alt="TD_slopes" style="margin:0px 0px 0px 0px; width:500px;"></p>
+<ol>
+<li><p>Sample a value \(\tilde \theta\) from \([\theta \mid \mathcal D_n]\)</p></li>
+<li><p>Sample a value \(\tilde b_j\) from \([b_j \mid T_j^* &gt; t, \mathcal Y_j(t), \theta]\)</p></li>
+<li><p>Compute the ratio \(S\{u \mid \mathcal H_j(u, \tilde b_j), \tilde \theta\} \Big / S\{t \mid \mathcal H_j(t, \tilde b_j), \tilde \theta\}\)</p></li>
+</ol>
+
+</article></slide><slide class=""><hgroup><h2>Joint Models (cont’d)</h2></hgroup><article  id="joint-models-contd-4">
+
+<p><img src="JM.gif" alt="DynPreds" style="margin:0px 0px 0px 0px; width:500px;"></p>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Personalizing the Biopsy Schedules</h2></hgroup><article  id="personalizing-the-biopsy-schedules">
 
@@ -422,15 +485,16 @@ p(y_{i1}, y_{i2}, T_i^L, T_i^R) &amp; = &amp; \int p(y_{i1} \mid {\color{red} b_
 <p><br/></p>
 
 <ul>
+<li>\(T_i^*\) the true reclassification time</li>
 <li>\(t\) time of last biopsy</li>
 <li>\(v\) time of current visit, \(v \geq t\)</li>
 <li>\(u\) future time, \(u \geq t\)</li>
 <li>\(\mathcal Y_{j1}(v)\) &amp; \(\mathcal Y_{j2}(v)\) available PSA &amp; DRE measurements up to current visit</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Risk of Progression (cont’d)</h2></hgroup><article  id="risk-of-progression-contd">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd">
 
-<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="720" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" width="720" /></p>
 
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule</h2></hgroup><article  id="personalized-schedule">
 
@@ -452,11 +516,11 @@ s_N = h
 \end{array}\]</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd">
-
-<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" width="720" /></p>
-
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-1">
+
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="720" /></p>
+
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-2">
 
 <ul>
 <li><font color = "red">Simple decision rule:</font> We do a biopsy at \(s_n\) if <br/><br/> \[\pi(s_n \mid t_n, v) \geq \kappa_n\]</li>
@@ -468,11 +532,11 @@ s_N = h
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-2">
-
-<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" width="720" /></p>
-
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-3">
+
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" width="720" /></p>
+
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-4">
 
 <ul>
 <li>The key question is</li>
@@ -483,10 +547,10 @@ s_N = h
 <div style="text-align:center;width:600px;border:3px solid black">
 <p><br/> <strong><font size="6" color = "red">How do we select \({\color{red} \kappa_n}\)?</font></strong> <br/></p></div>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-4">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-5">
 
 <ul>
-<li>We consider two relevant quantities
+<li>We consider the two relevant quantities
 
 <ul>
 <li>the number of biopsies</li>
@@ -499,7 +563,7 @@ s_N = h
 <div style="text-align:center;width:700px;border:3px solid black">
 <p><br/> <strong><font size="5" color = "red">Ideally, we would like to just do one biopsy at exactly the time point of progression</font></strong> <br/></p></div>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-5">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-6">
 
 <ul>
 <li>For different thresholds \(\kappa_n\) we would obtain different number of biopsies and different delays…</li>
@@ -515,11 +579,11 @@ s_N = h
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-6">
-
-<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" width="720" /></p>
-
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-7">
+
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" width="720" /></p>
+
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-8">
 
 <ul>
 <li>The times when biopsies are performed \[t_n = \left\{
@@ -536,7 +600,7 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 <li>The expected number of biopsies will be \[\mathcal N_j(\kappa^*) = \sum_{n = 1}^N \mbox{I}\{\pi_j(s_n \mid t_n, v) \geq \kappa^*\} \times \{1 - \pi_j(t_{n-1} \mid t, v)\}\]</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-8">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-9">
 
 <ul>
 <li>For a specific threshold \(\kappa^*\) we can calculate
@@ -549,7 +613,7 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-9">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-10">
 
 <p><br/><br/></p>
 
@@ -557,11 +621,11 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 <li>For different \(\kappa\)’s we construct the two-dimensional space of expected number of biopsies and expected delays</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-10">
-
-<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" width="720" /></p>
-
 </article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-11">
+
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" width="720" /></p>
+
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-12">
 
 <p><br/></p>
 
@@ -573,7 +637,7 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-12">
+</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-13">
 
 <p><br/></p>
 
@@ -585,94 +649,6 @@ s_n : \pi_j(s_n \mid t_{n - 1}, v) \geq \kappa^*\\
 <li>select \({\color{red} \kappa_n^{opt}}\) the \(\kappa\) that minimizes the expected number of biopsies</li>
 </ul></li>
 </ul>
-
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-13">
-
-<p><br/><br/></p>
-
-<ul>
-<li>An illustration…</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Personalized Schedule (cont’d)</h2></hgroup><article  id="personalized-schedule-contd-14">
-
-<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" width="720" /></p>
-
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Peformance of Personalized Schedules</h2></hgroup><article  id="peformance-of-personalized-schedules">
-
-</article></slide><slide class=""><hgroup><h2>Simulation - Desing</h2></hgroup><article  id="simulation---desing">
-
-<ul>
-<li><span style="color:green">
-Simulation study</span>:
-
-<ul>
-<li>The same characteristics as in PRIAS</li>
-<li>500 datasets x (750 training + 250 test) patients</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Simulation - Desing (cont’d)</h2></hgroup><article  id="simulation---desing-contd">
-
-<ul>
-<li>For illustration purposes, we define:
-
-<ul>
-<li><span style="color:black">
-Slow progression</span>: patients who never progress (50%)</li>
-<li>Remaining 50%:
-
-<ul>
-<li><span style="color:black">
-Fast progression</span>: 30% progression in 0 to 3.5 years</li>
-<li><span style="color:black">
-Intermediate progression</span>: 20% progression in 3.5 to 10 years</li>
-</ul></li>
-</ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Simulation - Desing (cont’d)</h2></hgroup><article  id="simulation---desing-contd-1">
-
-<ul>
-<li><span style="color:red">
-Fixed</span>:
-
-<ul>
-<li>PRIAS (biopsy every 3 years, and if PSA goes up too fast then annual biopsy)</li>
-<li>Annual (annual biopsies)</li>
-</ul></li>
-</ul>
-
-<p><br/></p>
-
-<ul>
-<li><span style="color:green">
-Personalized (risk based)</span>:
-
-<ul>
-<li>5% risk threshold</li>
-<li>10% risk threshold</li>
-<li>time-varying threshold minimizing expected delay &amp; number of biopsies</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Simulation - Desing (cont’d)</h2></hgroup><article  id="simulation---desing-contd-2">
-
-<p><br/> <br/></p>
-
-<ul>
-<li><span style="color:black">
-Comparison criteria </span>
-
-<ul>
-<li>Number of biopsies until cancer progression</li>
-<li>Delay in detection of cancer progression</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Simulation - Results</h2></hgroup><article  id="simulation---results">
-
-<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" width="720" /></p>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Discussion</h2></hgroup><article  id="discussion">
 
