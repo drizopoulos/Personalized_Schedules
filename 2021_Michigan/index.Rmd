@@ -536,10 +536,10 @@ print(schedule_plot)
   
 <br/>
 
-- In general, we consider decisions at fixed schedule
+- In general, we consider decisions at a fixed schedule
 $$\begin{array}{l}
 s_1, \ldots, s_N\\
-s_1 = u\\
+s_1 = v\\
 s_N = h
 \end{array}$$
 
