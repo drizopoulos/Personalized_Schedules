@@ -1,5 +1,5 @@
 ---
-title: "Personalized Biopsies during Active Surveillance of Prostatce Cancer Patients"
+title: "Personalized Biopsies during Active Surveillance of Prostate Cancer Patients"
 author: "Dimitris Rizopoulos"
 date: "Biostatistics Seminar, University of Michigan<br/>October 8, 2021"
 output:
