@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Personalized Biopsies during Active Surveillance of Prostate Cancer Patients</title>
+  <title>Personalized Scheduling of Invasive Procedures</title>
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -19,7 +19,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Personalized Biopsies during Active Surveillance of Prostate Cancer Patients',
+                title: 'Personalized Scheduling of Invasive Procedures',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -126,7 +126,7 @@ slide:not(.current) .plotly.html-widget{
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">Biostatistics Seminar, University of Michigan<br/>October 8, 2021</p>
+            <p style="margin-top: 6px; margin-left: -2px;">Statistics Seminar, VUMC and AMC<br/>November 30, 2021</p>
           </hgroup>
   </slide>
 
@@ -169,7 +169,7 @@ Biopsies</span></li>
 
 <p><br/></p>
 
-<div style="text-align:center;width:50%;border:3px solid black" align="right">
+<div align="right" style="text-align:center;width:50%;border:3px solid black">
 <p><br/><br/> <strong><font size="6" color = "red">Frequency of Biopsies</font></strong> <br/><br/></p></div>
 
 </article></slide><slide class=""><hgroup><h2>PCa Active Surveillance (cont’d)</h2></hgroup><article  id="pca-active-surveillance-contd-1">
@@ -380,9 +380,9 @@ y_{i1}(t) &amp; = &amp; {\color{red} \eta_{i1}(t)} + \varepsilon_i(t)\\
 
 <ul>
 <li>The longitudinal and survival outcomes are jointly modeled \[\begin{eqnarray}
-p(y_{i1}, y_{i2}, T_i^L, T_i^R) &amp; = &amp; \int p(y_{i1} \mid {\color{red} b_{i1}}) \; p(y_{i2} \mid {\color{red} b_{i2}}) \times \\
+p(y_{i1}, y_{i2}, T_i^L, T_i^R \mid {\color{red} b_i}) &amp; = &amp; p(y_{i1} \mid {\color{red} b_{i1}}) \; p(y_{i2} \mid {\color{red} b_{i2}}) \times \\
 &amp;&amp; \quad \quad  
-\left\{S(T_i^L \mid {\color{red} b_i}) - S(T_i^R \mid {\color{red} b_i})\right\} p({\color{red} b_i}) \; d{\color{red} b_i}\\
+\left\{S(T_i^L \mid {\color{red} b_i}) - S(T_i^R \mid {\color{red} b_i})\right\} p({\color{red} b_i})\\
 \end{eqnarray}\] <br/>
 
 <ul>

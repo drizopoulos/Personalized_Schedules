@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Integrating Repeated Biomarker Measurements</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Integrating Repeated Biomarker Measurements',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                        favIcon: 'index_files/logo.png',
+              },
+
+      // Author information
+      presenters: [
+            {
+        name:  'Dimitris Rizopoulos' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+  <link href="site_libs/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="site_libs/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="site_libs/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="site_libs/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/slide-deck.js"></script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    summary {
+      display: list-item;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+/* https://github.com/ropensci/plotly/pull/524#issuecomment-468142578 */
+slide:not(.current) .plotly.html-widget{
+  display: block;
+}
+
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+            
+    slides > slide:not(.nobackground):before {
+      font-size: 12pt;
+      content: "";
+      position: absolute;
+      bottom: 20px;
+      left: 60px;
+      background: url(index_files/logo.png) no-repeat 0 50%;
+      -webkit-background-size: 30px 30px;
+      -moz-background-size: 30px 30px;
+      -o-background-size: 30px 30px;
+      background-size: 30px 30px;
+      padding-left: 40px;
+      height: 30px;
+      line-height: 1.9;
+    }
+  </style>
+
+  <link rel="stylesheet" href="pres.css" type="text/css" />
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <aside class="gdbar"><img src="index_files/logo.png"></aside>
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">CISNET Annual Meeting<br/>November 12, 2021</p>
+          </hgroup>
+  </slide>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ TeX: { extensions: ["color.js"] }});
+</script>
+
+<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Background &amp; Motivation</h2></hgroup><article  id="background-motivation">
+
+</article></slide><slide class=""><hgroup><h2>Repeated Measurements</h2></hgroup><article  id="repeated-measurements">
+
+<div style="float:center;text-align:center;width:90%;border:3px solid black">
+<p><br/><br/> <strong><font size="6" color = "red">Access to serial measurements increases over years</font></strong> <br/><br/></p></div>
+
+<p><br/></p>
+
+<ul>
+<li>Biomarkers</li>
+<li>Patients Parameters</li>
+<li>MRI</li>
+<li>…</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Examples form Prostate Cancer</h2></hgroup><article  id="examples-form-prostate-cancer">
+
+<p><br/></p>
+
+<ul>
+<li>Active Surveillance - progression is tracked via:
+
+<ul>
+<li>Prostate-specific antigen (PSA)</li>
+<li>Digital rectal examination (DRE)</li>
+<li>MRI</li>
+<li><span style="color:red">
+Biopsies</span></li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Examples form Prostate Cancer (cont’d)</h2></hgroup><article  id="examples-form-prostate-cancer-contd">
+
+<ul>
+<li>Radiotherapy or Surgery after diagnosis
+
+<ul>
+<li>PSA</li>
+<li>Salvage Therapy</li>
+</ul></li>
+</ul>
+
+<p><br/></p>
+
+<ul>
+<li>Screening and Early Detection
+
+<ul>
+<li>PSA</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Relevant Questions</h2></hgroup><article  id="relevant-questions">
+
+<ul>
+<li>Active Surveillance: <span style="color:red">
+unnecessary</span> biopsies \(\Rightarrow\) Low compliance</li>
+<li>effectiveness of AS is compromised</li>
+</ul>
+
+<p><br/></p>
+
+<div style="float:center;text-align:center;width:80%;border:3px solid black">
+<p><br/><br/> <strong><font size="6" color = "red">How can we improve biopsy scheduling?</font></strong> <br/><br/></p></div>
+
+</article></slide><slide class=""><hgroup><h2>Relevant Questions (cont’d)</h2></hgroup><article  id="relevant-questions-contd">
+
+<ul>
+<li>Radiotherapy or Surgery: <span style="color:red">
+risk of metastasis</span></li>
+</ul>
+
+<p><br/></p>
+
+<div style="float:center;text-align:center;width:80%;border:3px solid black">
+<p><br/><br/> <strong><font size="6" color = "red">When to initiate salvage therapy?</font></strong> <br/><br/></p></div>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Integrating Repeated Measurements</h2></hgroup><article  id="integrating-repeated-measurements">
+
+</article></slide><slide class=""><hgroup><h2>Utilize Repeated Measurements</h2></hgroup><article  id="utilize-repeated-measurements">
+
+<ul>
+<li>Individualized risk predictions
+
+<ul>
+<li><span style="color:blue">
+Progression rate is not only different between patients but also dynamically changes over time for the same patient</span></li>
+</ul></li>
+</ul>
+
+<p><br/></p>
+
+<ul>
+<li>Risk predictions based upon
+
+<ul>
+<li><span style="color:red">
+All available</span> PSA (ng/mL) measurements</li>
+<li><span style="color:red">
+All available</span> DRE (T1c / above T1c) measurements</li>
+<li><span style="color:red">
+All available</span> MRI (PI-RADS) measurements</li>
+<li><span style="color:green">
+Time and results of previous biopsies</span></li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Utilize Repeated Measurements (cont’d)</h2></hgroup><article  id="utilize-repeated-measurements-contd">
+
+<p><img src="index_files/figure-html/unnamed-chunk-1-1.png" width="720" /></p>
+
+</article></slide><slide class=""><hgroup><h2>Utilize Repeated Measurements (cont’d)</h2></hgroup><article  id="utilize-repeated-measurements-contd-1">
+
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" width="720" /></p>
+
+</article></slide><slide class=""><hgroup><h2>Utilize Repeated Measurements (cont’d)</h2></hgroup><article  id="utilize-repeated-measurements-contd-2">
+
+<p><br/></p>
+
+<div style="text-align:center;width:600px;border:3px solid black">
+<p><br/> <strong><font size="6" color = "red">How to better plan biopsies or salvage therapy?</font></strong> <br/></p></div>
+
+<p><br/></p>
+
+<ul>
+<li>In steps:
+
+<ul>
+<li><em>How to use the available PSA, DRE, MRI measurements to predict reclassification or metastasis?</em></li>
+<li><em>When to plan the next biopsy or When to initiate salvage?</em></li>
+</ul></li>
+</ul>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Modeling Framework</h2></hgroup><article  id="modeling-framework">
+
+</article></slide><slide class=""><hgroup><h2>Time-varying Covariates</h2></hgroup><article  id="time-varying-covariates">
+
+<ul>
+<li>To answer these questions we need to link
+
+<ul>
+<li>the time to Gleason reclassification or metastasis (survival outcome)</li>
+<li>the PSA measurements (longitudinal continuous outcome)</li>
+<li>the DRE measurements (longitudinal binary/ordinal outcome)</li>
+</ul></li>
+</ul>
+
+<p><br/></p>
+
+<ul>
+<li>Biomarkers are <font color="red"><em>endogenous</em></font> time-varying covariates
+
+<ul>
+<li>their future path depends on previous events</li>
+<li>standard time-varying Cox model not appropriate</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Time-varying Covariates (cont’d)</h2></hgroup><article  id="time-varying-covariates-contd">
+
+<br/><br/>
+
+<div class="blue">
+<strong>To account for endogeneity we use the framework of</strong></div>
+
+<p><br/></p>
+
+<div style="text-align:center;width:800px;border:3px solid black">
+<p><br/> <strong><font size="6" color = "red">Joint Models for Longitudinal &amp; Survival Data</font></strong> <br/></p></div>
+
+</article></slide><slide class=""><hgroup><h2>The Basic Joint Model</h2></hgroup><article  id="the-basic-joint-model">
+
+<p><img src="JM.gif" alt="DynPreds" style="margin:0px 0px 0px 0px; width:500px;"></p>
+
+</article></slide><slide class=""><hgroup><h2>Functional Forms</h2></hgroup><article  id="functional-forms">
+
+<p><img src="tdSlope.gif" alt="TD_slopes" style="margin:0px 0px 0px 0px; width:500px;"></p>
+
+</article></slide><slide class=""><hgroup><h2>Functional Forms (cont’d)</h2></hgroup><article  id="functional-forms-contd">
+
+<p><img src="tdArea.gif" alt="TD_Area" style="margin:0px 0px 0px 0px; width:500px;"></p>
+
+</article></slide><slide class=""><hgroup><h2>Dynamic Risk</h2></hgroup><article  id="dynamic-risk">
+
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" width="720" /></p>
+
+</article></slide><slide class=""><hgroup><h2>Combine with Natural History Models</h2></hgroup><article  id="combine-with-natural-history-models">
+
+<p><br/></p>
+
+<ul>
+<li><p>Transition-intensities or cumulative incidences can be fed into natural history models</p>
+
+<ul>
+<li>MISCAN model</li>
+<li>Fred Hutch model</li>
+</ul></li>
+</ul>
+
+<p><br/></p>
+
+<ul>
+<li>Requires fitting the model in appropriate cohorts</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article >
+
+<p><br/> <br/></p>
+
+<div align="center">
+<p><font color = "black" size = "6"><strong>Thank you for your attention!</strong></font></p></div>
+
+<br/>
+
+<div align="center">
+<p><a href='http://www.drizopoulos.com/' title=''>http://www.drizopoulos.com/</a></p></div>
+
+<p><br/> <br/> <br/></p></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>
