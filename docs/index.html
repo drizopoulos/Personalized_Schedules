@@ -41,7 +41,7 @@
     };
   </script>
 
-  <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+  <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
   <link href="site_libs/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
   <link href="site_libs/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
   <link href="site_libs/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
@@ -65,6 +65,10 @@
 
     summary {
       display: list-item;
+    }
+
+    details > summary > p:only-child {
+      display: inline;
     }
 
     slides > slide {
@@ -126,7 +130,7 @@ slide:not(.current) .plotly.html-widget{
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">Statistics Seminar, VUMC and AMC<br/>November 30, 2021</p>
+            <p style="margin-top: 6px; margin-left: -2px;">Statistical Sciences Seminar, University of Cape Town<br/>May 23, 2022</p>
           </hgroup>
   </slide>
 
@@ -380,9 +384,9 @@ y_{i1}(t) &amp; = &amp; {\color{red} \eta_{i1}(t)} + \varepsilon_i(t)\\
 
 <ul>
 <li>The longitudinal and survival outcomes are jointly modeled \[\begin{eqnarray}
-p(y_{i1}, y_{i2}, T_i^L, T_i^R \mid {\color{red} b_i}) &amp; = &amp; p(y_{i1} \mid {\color{red} b_{i1}}) \; p(y_{i2} \mid {\color{red} b_{i2}}) \times \\
+p(y_{i1}, y_{i2}, T_i^L, T_i^R) &amp; = &amp; \int p(y_{i1} \mid {\color{red} b_{i1}}) \; p(y_{i2} \mid {\color{red} b_{i2}}) \times \\
 &amp;&amp; \quad \quad  
-\left\{S(T_i^L \mid {\color{red} b_i}) - S(T_i^R \mid {\color{red} b_i})\right\} p({\color{red} b_i})\\
+\left\{S(T_i^L \mid {\color{red} b_i}) - S(T_i^R \mid {\color{red} b_i})\right\} p({\color{red} b_i}) \; d{\color{red} b_i}\\
 \end{eqnarray}\] <br/>
 
 <ul>
