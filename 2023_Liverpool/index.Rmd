@@ -1,7 +1,7 @@
 ---
 title: "Minimizing the Burden of Invasive Procedures via Personalized Scheduling"
 author: "Dimitris Rizopoulos"
-date: "Department of Health Data Sciene, University of Liverpool<br/>April 19, 2023"
+date: "Department of Health Data Science, University of Liverpool<br/>April 19, 2023"
 output:
   ioslides_presentation:
     css: pres.css
