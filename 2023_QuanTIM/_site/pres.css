@@ -1,0 +1,49 @@
+h2 { 
+ font-size:1.7em; 
+ color: blue;
+}
+
+p2 {
+    text-align: center;
+}
+
+ul { 
+ color: black;
+}
+
+ol { 
+ color: black;
+}
+
+body {
+ color: black;
+}
+
+.gdbar img {
+  width: 300px !important;
+  height: 150px !important;
+  margin: 8px 8px;
+}
+
+.gdbar {
+  width: 0px !important;
+  height: 170px !important;
+}
+
+slides > slide:not(.nobackground):before {
+  width: 250px;
+  height: 125px;
+  background-size: 200px 100px;
+  bottom: 575px;
+  left: 875px;
+}
+
+.container{
+    margin:2%;
+    background-color:#888888;
+    width:30%;
+    padding-bottom:30%; /* relative size and position on page  */
+    float: left;
+    position:relative;  /* coord system stop */
+    top: 0px; /* IE? */
+}
